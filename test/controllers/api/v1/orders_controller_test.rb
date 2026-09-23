@@ -9,14 +9,14 @@ class Api::V1::OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not create order without token" do
-    post api_v1_orders_url, params: { order_items: [{ product_id: @product.id, quantity: 1 }] }, as: :json
+    post api_v1_orders_url, params: { order_items: [ { product_id: @product.id, quantity: 1 } ] }, as: :json
     assert_response :unauthorized
   end
 
   test "should create order with valid token" do
-    post api_v1_orders_url, 
-         params: { order_items: [{ product_id: @product.id, quantity: 1 }] }, 
-         headers: { "Authorization" => "Bearer #{@token}" }, 
+    post api_v1_orders_url,
+         params: { order_items: [ { product_id: @product.id, quantity: 1 } ] },
+         headers: { "Authorization" => "Bearer #{@token}" },
          as: :json
 
     assert_response :created
