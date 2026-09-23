@@ -1,0 +1,13 @@
+<h1><%= @product.name %></h1>
+
+<% if @product.image.attached? %>
+  <p><%= image_tag @product.image, width: 200 %></p>
+<% end %>
+
+<p><strong>Categoría:</strong> <%= @product.category&.name %></p>
+<p><strong>Precio:</strong> $<%= @product.price %></p>
+<p><strong>Stock:</strong> <%= @product.stock %></p>
+<p><strong>Descripción:</strong> <%= @product.description %></p>
+
+<%= link_to "Editar", edit_admin_product_path(@product) %> |
+<%= link_to "Volver", admin_products_path %>

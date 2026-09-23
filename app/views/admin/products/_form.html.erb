@@ -1,0 +1,45 @@
+<%= form_with(model: [:admin, product]) do |form| %>
+  <% if product.errors.any? %>
+    <div style="color: red;">
+      <ul>
+        <% product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Nombre" %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :category_id, "Categoría" %><br>
+    <%= form.collection_select :category_id, Category.all, :id, :name, prompt: "Seleccionar Categoría" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Descripción" %><br>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :price, "Precio" %><br>
+    <%= form.number_field :price, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= form.label :stock, "Stock" %><br>
+    <%= form.number_field :stock %>
+  </div>
+
+  <div>
+    <%= form.label :image, "Imagen del producto (Active Storage)" %><br>
+    <%= form.file_field :image %>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <%= form.submit "Guardar" %>
+  </div>
+<% end %>

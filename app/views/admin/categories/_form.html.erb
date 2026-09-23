@@ -1,0 +1,25 @@
+<%= form_with(model: [:admin, category]) do |form| %>
+  <% if category.errors.any? %>
+    <div style="color: red;">
+      <ul>
+        <% category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Nombre" %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Descripción" %><br>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit "Guardar" %>
+  </div>
+<% end %>

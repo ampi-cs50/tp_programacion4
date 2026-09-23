@@ -1,0 +1,13 @@
+<h1>Categorías</h1>
+<%= link_to "Nueva Categoría", new_admin_category_path %>
+
+<ul>
+  <% @categories.each do |cat| %>
+    <li>
+      <strong><%= cat.name %></strong> - <%= cat.description %>
+      <%= link_to "Ver", admin_category_path(cat) %> |
+      <%= link_to "Editar", edit_admin_category_path(cat) %> |
+      <%= button_to "Eliminar", admin_category_path(cat), method: :delete %>
+    </li>
+  <% end %>
+</ul>
