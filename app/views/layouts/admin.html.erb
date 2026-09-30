@@ -14,6 +14,13 @@
       <p>Usuario: <%= Current.user&.email_address %> | <%= link_to "Volver al sitio", root_path, style: "color: #fff;" %></p>
     </header>
 
+    <nav style="background: #eee; padding: 10px 20px; border-bottom: 1px solid #ccc;">
+      <%= link_to "Dashboard", admin_root_path, style: "margin-right: 15px; text-decoration: none; color: #333; font-weight: bold;" %>
+      <%= link_to "Categorías", admin_categories_path, style: "margin-right: 15px; text-decoration: none; color: #333; font-weight: bold;" %>
+      <%= link_to "Productos", admin_products_path, style: "margin-right: 15px; text-decoration: none; color: #333; font-weight: bold;" %>
+      <%= link_to "Órdenes", admin_orders_path, style: "margin-right: 15px; text-decoration: none; color: #333; font-weight: bold;" %>
+    </nav>
+
     <main style="padding: 20px;">
       <% if notice %>
         <p style="color: green;"><%= notice %></p>
