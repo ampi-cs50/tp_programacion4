@@ -9,7 +9,7 @@ module Admin
     def show; end
 
     def new
-      @product = Product.new
+      @product = Product.new(category_id: params[:category_id])
     end
 
     def create
@@ -43,7 +43,7 @@ module Admin
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :price, :stock, :category_id, :image)
+      params.require(:product).permit(:name, :description, :price, :stock, :category_id, images: [])
     end
   end
 end

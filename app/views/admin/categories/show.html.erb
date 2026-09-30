@@ -1,4 +1,13 @@
 <h1><%= @category.name %></h1>
 <p><%= @category.description %></p>
+
+<h3>Productos en esta categoría:</h3>
+<ul>
+  <% @category.products.each do |product| %>
+    <li><%= link_to product.name, admin_product_path(product) %> - $<%= product.price %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Nuevo Producto en esta Categoría", new_admin_product_path(category_id: @category.id) %> |
 <%= link_to "Editar", edit_admin_category_path(@category) %> |
 <%= link_to "Volver", admin_categories_path %>

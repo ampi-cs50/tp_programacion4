@@ -35,8 +35,8 @@
   </div>
 
   <div>
-    <%= form.label :image, "Imagen del producto (Active Storage)" %><br>
-    <%= form.file_field :image %>
+    <%= form.label :images, "Imágenes del producto" %><br>
+    <%= form.file_field :images, multiple: true %>
   </div>
 
   <div style="margin-top: 10px;">

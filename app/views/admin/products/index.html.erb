@@ -16,8 +16,8 @@
     <% @products.each do |prod| %>
       <tr>
         <td>
-          <% if prod.image.attached? %>
-            <%= image_tag prod.image, width: 50 %>
+          <% if prod.images.attached? %>
+            <%= image_tag prod.images.first, width: 50 %>
           <% else %>
             Sin foto
           <% end %>
