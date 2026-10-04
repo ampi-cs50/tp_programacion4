@@ -4,10 +4,23 @@
 <ul>
   <% @categories.each do |cat| %>
     <li>
-      <strong><%= cat.name %></strong> - <%= cat.description %>
+      <strong><%= cat.name %></strong> (Principal)
       <%= link_to "Ver", admin_category_path(cat) %> |
       <%= link_to "Editar", edit_admin_category_path(cat) %> |
-      <%= button_to "Eliminar", admin_category_path(cat), method: :delete %>
+      <%= button_to "Eliminar", admin_category_path(cat), method: :delete, form: {style: 'display:inline-block;'} %>
+      
+      <% if cat.subcategories.any? %>
+        <ul>
+          <% cat.subcategories.each do |sub| %>
+            <li>
+              <%= sub.name %>
+              <%= link_to "Ver", admin_category_path(sub) %> |
+              <%= link_to "Editar", edit_admin_category_path(sub) %> |
+              <%= button_to "Eliminar", admin_category_path(sub), method: :delete, form: {style: 'display:inline-block;'} %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     </li>
   <% end %>
 </ul>

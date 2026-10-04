@@ -3,7 +3,7 @@ module Admin
     before_action :set_category, only: %i[show edit update destroy]
 
     def index
-      @categories = Category.all
+      @categories = Category.where(parent_id: nil).includes(:subcategories)
     end
 
     def show; end

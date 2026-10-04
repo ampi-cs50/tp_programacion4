@@ -1,5 +1,18 @@
 <h1><%= @category.name %></h1>
+<% if @category.parent %>
+  <p><strong>Categoría Padre:</strong> <%= link_to @category.parent.name, admin_category_path(@category.parent) %></p>
+<% end %>
+
 <p><%= @category.description %></p>
+
+<% if @category.subcategories.any? %>
+  <h3>Subcategorías:</h3>
+  <ul>
+    <% @category.subcategories.each do |sub| %>
+      <li><%= link_to sub.name, admin_category_path(sub) %></li>
+    <% end %>
+  </ul>
+<% end %>
 
 <h3>Productos en esta categoría:</h3>
 <ul>
