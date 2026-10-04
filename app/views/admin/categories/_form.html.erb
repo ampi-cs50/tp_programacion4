@@ -15,6 +15,11 @@
   </div>
 
   <div>
+    <%= form.label :parent_id, "Categoría Padre" %><br>
+    <%= form.collection_select :parent_id, Category.where.not(id: category.id), :id, :name, { include_blank: "Ninguna (Es una categoría principal)" } %>
+  </div>
+
+  <div>
     <%= form.label :description, "Descripción" %><br>
     <%= form.text_area :description %>
   </div>
