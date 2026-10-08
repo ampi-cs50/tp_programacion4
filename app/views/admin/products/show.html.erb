@@ -10,8 +10,41 @@
 
 <p><strong>Categoría:</strong> <%= @product.category&.name %></p>
 <p><strong>Precio:</strong> $<%= @product.price %></p>
-<p><strong>Stock:</strong> <%= @product.stock %></p>
 <p><strong>Descripción:</strong> <%= @product.description %></p>
 
-<%= link_to "Editar", edit_admin_product_path(@product) %> |
-<%= link_to "Volver", admin_products_path %>
+<hr>
+<h3>Variantes (Colores y Talles)</h3>
+<table border="1" cellpadding="10" cellspacing="0" style="margin-bottom: 20px;">
+  <thead>
+    <tr>
+      <th>Color (Nombre)</th>
+      <th>Muestra (Hex)</th>
+      <th>Talle</th>
+      <th>Stock</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @product.product_variants.each do |variant| %>
+      <tr>
+        <td><%= variant.color %></td>
+        <td>
+          <div style="width: 25px; height: 25px; border-radius: 50%; background-color: <%= variant.hex_color %>; border: 1px solid #ccc;" title="<%= variant.hex_color %>"></div>
+        </td>
+        <td><%= variant.size %></td>
+        <td><%= variant.stock %></td>
+        <td>
+          <%= link_to "Editar", edit_admin_product_product_variant_path(@product, variant) %> |
+          <%= link_to "Eliminar", admin_product_product_variant_path(@product, variant), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p><%= link_to "+ Agregar Variante", new_admin_product_product_variant_path(@product), style: "background: black; color: white; padding: 5px 10px; text-decoration: none; border-radius: 4px;" %></p>
+<hr>
+
+<br>
+<%= link_to "Editar Producto", edit_admin_product_path(@product) %> |
+<%= link_to "Volver a la lista", admin_products_path %>

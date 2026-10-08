@@ -23,11 +23,19 @@ module Api
           id: product.id,
           name: product.name,
           price: product.price,
-          stock: product.stock,
+          stock: product.product_variants.sum(:stock), # El stock total es la suma de las variantes
           category_id: product.category_id,
-          # Si tiene imagen, devolver la URL usando url_for (requiere configuración extra en Active Storage si es full URL,
-          # o devolver la ruta para que el frontend la resuelva)
-          image_url: (product.images.attached? ? Rails.application.routes.url_helpers.rails_blob_url(product.images.first, host: request.base_url) : nil)
+          image_url: (product.images.attached? ? Rails.application.routes.url_helpers.rails_blob_url(product.images.first, host: request.base_url) : nil),
+          variants: product.product_variants.map do |v|
+            {
+              id: v.id,
+              color: v.color,
+              hex_color: v.hex_color || '#000000',
+              size: v.size,
+              stock: v.stock,
+              sku: v.sku
+            }
+          end
         }
       end
     end

@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Login from './pages/Login';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import './App.css'; 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
           <Route path="/productos" element={<Products />} />
           <Route path="/productos/:id" element={<ProductDetail />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/carrito" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </main>
       

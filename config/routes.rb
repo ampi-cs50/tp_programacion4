@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: "dashboard#index"
     resources :categories
-    resources :products
+    resources :products do
+      resources :product_variants, only: %i[new create edit update destroy]
+    end
     resources :orders, only: %i[index show update]
   end
 

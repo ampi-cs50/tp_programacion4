@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 function Navbar() {
   const { isAuthenticated, userEmail, logout } = useContext(AuthContext);
+  const { cartCount } = useContext(CartContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -45,9 +47,28 @@ function Navbar() {
           </Link>
         )}
         
-        <button className="icon-btn">
+        <Link to="/carrito" className="icon-btn" style={{ position: 'relative' }}>
           <span>🛒</span> Carrito
-        </button>
+          {cartCount > 0 && (
+            <span style={{
+              position: 'absolute',
+              top: '-5px',
+              right: '-10px',
+              background: 'var(--lulu-red)',
+              color: 'white',
+              borderRadius: '50%',
+              width: '18px',
+              height: '18px',
+              fontSize: '0.7rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold'
+            }}>
+              {cartCount}
+            </span>
+          )}
+        </Link>
       </div>
     </nav>
   );

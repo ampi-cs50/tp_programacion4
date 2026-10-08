@@ -36,12 +36,18 @@ module Api
             product = Product.find(item_params[:product_id])
             quantity = item_params[:quantity].to_i
 
-            if product.stock < quantity
-              raise ActiveRecord::Rollback, "Not enough stock for #{product.name}"
+            if item_params[:variant_id].present?
+              variant = ProductVariant.find(item_params[:variant_id])
+              if variant.stock < quantity
+                raise ActiveRecord::Rollback, "Not enough stock for #{product.name} in that color/size"
+              end
+              variant.update!(stock: variant.stock - quantity)
+            else
+              if product.stock < quantity
+                raise ActiveRecord::Rollback, "Not enough stock for #{product.name}"
+              end
+              product.update!(stock: product.stock - quantity)
             end
-
-            # Decrementar el stock
-            product.update!(stock: product.stock - quantity)
 
             unit_price = product.price
             total += unit_price * quantity

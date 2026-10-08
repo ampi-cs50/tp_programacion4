@@ -1,0 +1,41 @@
+<%= form_with(model: [:admin, @product, @variant], local: true) do |form| %>
+  <% if @variant.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@variant.errors.count, "error") %> impidió guardar esta variante:</h2>
+      <ul>
+        <% @variant.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :color, "Nombre del Color (Ej: 'Negro espacial')" %><br>
+    <%= form.text_field :color %>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%= form.label :hex_color, "Color visual (Selector)" %><br>
+    <%= form.color_field :hex_color, style: "width: 50px; height: 50px; padding: 0;" %>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%= form.label :size, "Talle (Ej: 'S', 'M', 'L')" %><br>
+    <%= form.text_field :size %>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%= form.label :stock, "Stock disponible" %><br>
+    <%= form.number_field :stock %>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%= form.label :sku, "SKU (Opcional)" %><br>
+    <%= form.text_field :sku %>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <%= form.submit "Guardar Variante" %>
+  </div>
+<% end %>

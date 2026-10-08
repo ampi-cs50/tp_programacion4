@@ -43,7 +43,12 @@ module Admin
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :price, :stock, :category_id, images: [])
+      # Evitar que Rails borre las imágenes si el campo de archivo viene vacío ([""])
+      p = params.require(:product).permit(:name, :description, :price, :stock, :category_id, images: [])
+      if p[:images] == [""] || p[:images].blank?
+        p.delete(:images)
+      end
+      p
     end
   end
 end

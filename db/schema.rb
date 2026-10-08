@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_04_200609) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_08_190926) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -68,6 +68,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_200609) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "product_variants", force: :cascade do |t|
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.string "hex_color"
+    t.integer "product_id", null: false
+    t.string "size"
+    t.string "sku"
+    t.integer "stock"
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_variants_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.integer "category_id", null: false
     t.datetime "created_at", null: false
@@ -104,6 +116,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_200609) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "product_variants", "products"
   add_foreign_key "products", "categories"
   add_foreign_key "sessions", "users"
 end
