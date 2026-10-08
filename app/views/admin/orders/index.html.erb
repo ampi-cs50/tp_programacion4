@@ -1,6 +1,8 @@
-<h1>Órdenes de Compra</h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+  <h1>Órdenes de Compra</h1>
+</div>
 
-<table border="1" cellpadding="8" style="margin-top: 15px; border-collapse: collapse; width: 100%;">
+<table>
   <thead>
     <tr>
       <th>ID</th>
@@ -14,13 +16,17 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td>#<%= order.id %></td>
+        <td style="font-weight: 600; color: var(--secondary-color);">#<%= order.id %></td>
         <td><%= order.user.email_address %></td>
-        <td><%= order.created_at.strftime("%d/%m/%Y %H:%M") %></td>
-        <td>$<%= order.total %></td>
-        <td><%= order.status %></td>
+        <td style="color: var(--text-muted);"><%= order.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+        <td style="font-weight: 600; color: var(--primary-color);">$<%= order.total %></td>
         <td>
-          <%= link_to "Ver Detalle", admin_order_path(order) %>
+          <span style="background: <%= order.status == 'pending' ? '#fef3c7' : '#dcfce7' %>; color: <%= order.status == 'pending' ? '#d97706' : '#15803d' %>; padding: 4px 10px; border-radius: 20px; font-size: 0.85em; font-weight: 500;">
+            <%= order.status %>
+          </span>
+        </td>
+        <td>
+          <%= link_to "Ver Detalle", admin_order_path(order), class: "btn-outline", style: "padding: 4px 12px; font-size: 0.8rem;" %>
         </td>
       </tr>
     <% end %>
