@@ -80,3 +80,5 @@ group :development, :test do
   gem "rubocop-rails", require: false
   gem "brakeman", require: false
 end
+
+gem "rack-cors", "~> 3.0"
