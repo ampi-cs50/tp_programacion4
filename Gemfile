@@ -82,3 +82,7 @@ group :development, :test do
 end
 
 gem "rack-cors", "~> 3.0"
+
+gem "google-id-token", "~> 1.4"
+
+gem "dotenv-rails", "~> 3.2", groups: [:development, :test]

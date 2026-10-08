@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post "login", to: "sessions#create"
+      post "signup", to: "registrations#create"
+      post "auth/google", to: "sessions#google"
       delete "logout", to: "sessions#destroy"
 
       resources :products, only: %i[index show]
