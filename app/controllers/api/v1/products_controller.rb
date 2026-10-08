@@ -30,7 +30,7 @@ module Api
             {
               id: v.id,
               color: v.color,
-              hex_color: v.hex_color || '#000000',
+              hex_color: v.hex_color || "#000000",
               size: v.size,
               stock: v.stock,
               sku: v.sku

@@ -7,7 +7,7 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   test "should not save order with negative total" do
-    user = User.create!(email_address: "order@example.com", password: "123")
+    user = User.create!(email_address: "order@example.com", password: "123456")
     order = Order.new(status: "pending", total: -10, user: user)
     assert_not order.save, "Saved order with negative total"
   end

@@ -20,12 +20,12 @@ module Api
         # Validar el token usando GoogleIdToken
         validator = GoogleIDToken::Validator.new
         begin
-          payload = validator.check(params[:credential], ENV['GOOGLE_CLIENT_ID'])
-          email = payload['email']
-          
+          payload = validator.check(params[:credential], ENV["GOOGLE_CLIENT_ID"])
+          email = payload["email"]
+
           # Buscar o crear al usuario
           user = User.find_or_create_by(email_address: email) do |u|
-            # Como es auth por google, le ponemos un password random seguro 
+            # Como es auth por google, le ponemos un password random seguro
             # porque no se va a logear por password tradicional a menos que quiera resetearla luego.
             u.password = SecureRandom.hex(16)
           end
