@@ -57,8 +57,7 @@ function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
-    
-    // Pasamos el producto incluyendo la info de la variante
+
     const cartProduct = {
       id: product.id,
       variant_id: selectedVariant.id,
@@ -97,7 +96,6 @@ function ProductDetail() {
           <p style={{ color: 'var(--lulu-dark-gray)' }}>{product.description || "Un producto diseñado para el máximo rendimiento y comodidad. Ideal para tu día a día o tus entrenamientos más intensos."}</p>
         </div>
 
-        {/* Selector de Color */}
         {uniqueColors.length > 0 && (
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontWeight: 'bold', marginBottom: '10px' }}>Color: <span style={{ fontWeight: 'normal', color: 'var(--lulu-dark-gray)' }}>{selectedColor}</span></p>
@@ -125,7 +123,6 @@ function ProductDetail() {
           </div>
         )}
 
-        {/* Selector de Talle */}
         {uniqueSizes.length > 0 && (
           <div style={{ marginBottom: '30px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
@@ -134,7 +131,6 @@ function ProductDetail() {
             </div>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {uniqueSizes.map(size => {
-                // Verificar si esta combinación (color seleccionado + este talle) tiene stock
                 const v = product.variants?.find(v => v.color === selectedColor && v.size === size);
                 const hasStock = v && v.stock > 0;
                 return (

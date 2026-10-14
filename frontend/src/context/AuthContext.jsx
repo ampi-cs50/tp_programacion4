@@ -21,7 +21,6 @@ export function AuthProvider({ children }) {
     setUserEmail(null);
   };
 
-  // Configurar el interceptor de Axios para que siempre mande el token
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

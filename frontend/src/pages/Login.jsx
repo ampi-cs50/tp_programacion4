@@ -21,7 +21,6 @@ function Login() {
     e.preventDefault();
     setError('');
     
-    // VALIDACIONES FRONTEND
     if (!email || !password) {
       setError('Por favor, completa todos los campos.');
       return;
@@ -56,7 +55,7 @@ function Login() {
       if (err.response && err.response.status === 401) {
         setError('Correo o contraseña incorrectos.');
       } else if (err.response && err.response.data && err.response.data.error) {
-        setError(err.response.data.error); // Mensajes de validación de Rails
+        setError(err.response.data.error);
       } else {
         setError('Hubo un problema al conectar con el servidor.');
       }

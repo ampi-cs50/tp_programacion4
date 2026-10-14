@@ -5,7 +5,6 @@ module Api
 
       def index
         @products = Product.all
-        # Formato de respuesta JSON
         render json: @products.map { |product| serialize_product(product) }
       end
 
@@ -23,7 +22,7 @@ module Api
           id: product.id,
           name: product.name,
           price: product.price,
-          stock: product.product_variants.sum(:stock), # El stock total es la suma de las variantes
+          stock: product.product_variants.sum(:stock),
           category_id: product.category_id,
           image_url: (product.images.attached? ? Rails.application.routes.url_helpers.rails_blob_url(product.images.first, host: request.base_url) : nil),
           variants: product.product_variants.map do |v|

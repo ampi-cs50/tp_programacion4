@@ -7,7 +7,7 @@ module Api
         user = User.new(
           email_address: params[:email_address],
           password: params[:password],
-          password_confirmation: params[:password] # Asumimos que es igual por simplicidad en este TP
+          password_confirmation: params[:password_confirmation] || params[:password]
         )
 
         if user.save

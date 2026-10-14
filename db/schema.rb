@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_08_190926) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_124231) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -52,11 +52,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_08_190926) do
     t.datetime "created_at", null: false
     t.integer "order_id", null: false
     t.integer "product_id", null: false
+    t.integer "product_variant_id"
     t.integer "quantity"
     t.decimal "unit_price"
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["product_id"], name: "index_order_items_on_product_id"
+    t.index ["product_variant_id"], name: "index_order_items_on_product_variant_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -114,6 +116,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_08_190926) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "product_variants"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "product_variants", "products"

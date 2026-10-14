@@ -39,29 +39,24 @@ function Checkout() {
     }
   }, [isAuthenticated, cartItems.length, navigate, success]);
 
-  // Formateadores y limpiadores de texto en vivo
   const handleChange = (e) => {
     let { name, value } = e.target;
 
-    // Solo letras y espacios para nombres
     if (name === 'firstName' || name === 'lastName' || name === 'city') {
       value = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
     }
 
-    // Solo números para código postal, máximo 5 dígitos
     if (name === 'zip') {
       value = value.replace(/\D/g, '').substring(0, 5);
     }
 
-    // Solo números para CVC, máximo 4
     if (name === 'cardCvc') {
       value = value.replace(/\D/g, '').substring(0, 4);
     }
 
-    // Formatear tarjeta de crédito: 0000 0000 0000 0000
     if (name === 'cardNumber') {
-      let val = value.replace(/\D/g, ''); // quitar lo que no sea número
-      val = val.substring(0, 16); // máximo 16 números
+      let val = value.replace(/\D/g, '');
+      val = val.substring(0, 16);
       const parts = [];
       for (let i = 0; i < val.length; i += 4) {
         parts.push(val.substring(i, i + 4));
@@ -69,7 +64,6 @@ function Checkout() {
       value = parts.join(' ');
     }
 
-    // Formatear expiración de tarjeta: MM/YY
     if (name === 'cardExpiry') {
       let val = value.replace(/\D/g, '');
       if (val.length > 2) {
@@ -80,7 +74,6 @@ function Checkout() {
 
     setFormData({ ...formData, [name]: value });
     
-    // Limpiar el error de este campo al escribir
     if (formErrors[name]) {
       setFormErrors({ ...formErrors, [name]: '' });
     }
@@ -98,17 +91,14 @@ function Checkout() {
       if (formData.zip.length < 4) errors.zip = "CP inválido";
     }
     
-    // Validación Tarjeta
     if (formData.cardNumber.replace(/\s/g, '').length !== 16) {
       errors.cardNumber = "La tarjeta debe tener 16 números";
     }
 
-    // Validación CVC
     if (formData.cardCvc.length < 3) {
       errors.cardCvc = "CVC inválido";
     }
 
-    // Validación Fecha Vencimiento
     if (formData.cardExpiry.length !== 5) {
       errors.cardExpiry = "Formato MM/AA";
     } else {

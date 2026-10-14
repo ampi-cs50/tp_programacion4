@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-// La URL base dependerá de dónde corra tu backend de Rails (usualmente localhost:3000)
 const API_URL = 'http://localhost:3000/api/v1';
 
 function Products() {
@@ -11,7 +10,6 @@ function Products() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Reemplaza esto con tu endpoint real de Rails
     axios.get(`${API_URL}/products`)
       .then(response => {
         setProducts(response.data);

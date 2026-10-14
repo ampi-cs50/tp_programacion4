@@ -1,28 +1,21 @@
 module Api
   module V1
     class OrdersController < Api::V1::BaseController
-      # Se asume que require_api_authentication ya corre por el BaseController
+      class OrderProcessingError < StandardError; end
 
       def index
-        @orders = current_user.orders.includes(:order_items)
+        @orders = current_user.orders.includes(order_items: [ :product, :product_variant ])
         render json: @orders.map { |order| serialize_order(order) }
       end
 
       def show
-        @order = current_user.orders.find(params[:id])
+        @order = current_user.orders.includes(order_items: [ :product, :product_variant ]).find(params[:id])
         render json: serialize_order(@order)
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Order not found" }, status: :not_found
       end
 
       def create
-        # JSON esperado:
-        # {
-        #   "order_items": [
-        #     { "product_id": 1, "quantity": 2 },
-        #     { "product_id": 2, "quantity": 1 }
-        #   ]
-        # }
         ActiveRecord::Base.transaction do
           @order = current_user.orders.build(status: "pending", total: 0)
 
@@ -35,16 +28,17 @@ module Api
           params[:order_items].each do |item_params|
             product = Product.find(item_params[:product_id])
             quantity = item_params[:quantity].to_i
+            variant = nil
 
             if item_params[:variant_id].present?
-              variant = ProductVariant.find(item_params[:variant_id])
+              variant = product.product_variants.find(item_params[:variant_id])
               if variant.stock < quantity
-                raise ActiveRecord::Rollback, "Not enough stock for #{product.name} in that color/size"
+                raise OrderProcessingError, "Not enough stock for #{product.name} in that color/size"
               end
               variant.update!(stock: variant.stock - quantity)
             else
               if product.stock < quantity
-                raise ActiveRecord::Rollback, "Not enough stock for #{product.name}"
+                raise OrderProcessingError, "Not enough stock for #{product.name}"
               end
               product.update!(stock: product.stock - quantity)
             end
@@ -53,6 +47,7 @@ module Api
             total += unit_price * quantity
             @order.order_items.build(
               product: product,
+              product_variant: variant,
               quantity: quantity,
               unit_price: unit_price
             )
@@ -61,7 +56,6 @@ module Api
           @order.total = total
 
           if @order.save
-            # Enviar el email asíncronamente
             OrderMailer.with(order: @order).confirmation_email.deliver_later
 
             render json: serialize_order(@order), status: :created
@@ -70,10 +64,10 @@ module Api
             raise ActiveRecord::Rollback
           end
         end
-      rescue ActiveRecord::Rollback => e
-        render json: { error: e.message || "Could not process order" }, status: :unprocessable_entity
+      rescue OrderProcessingError => e
+        render json: { error: e.message }, status: :unprocessable_entity
       rescue ActiveRecord::RecordNotFound
-        render json: { error: "One or more products not found" }, status: :not_found
+        render json: { error: "One or more products or variants not found" }, status: :not_found
       end
 
       private
@@ -87,6 +81,10 @@ module Api
           items: order.order_items.map do |item|
             {
               product_id: item.product_id,
+              product_name: item.product.name,
+              variant_id: item.product_variant_id,
+              variant_color: item.product_variant&.color,
+              variant_size: item.product_variant&.size,
               quantity: item.quantity,
               unit_price: item.unit_price,
               subtotal: item.quantity * item.unit_price

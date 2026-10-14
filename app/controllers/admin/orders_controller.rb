@@ -5,7 +5,7 @@ module Admin
     end
 
     def show
-      @order = Order.includes(order_items: :product).find(params[:id])
+      @order = Order.includes(order_items: [ :product, :product_variant ]).find(params[:id])
     end
 
     def update
