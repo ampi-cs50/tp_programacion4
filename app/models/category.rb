@@ -4,5 +4,5 @@ class Category < ApplicationRecord
 
   has_many :products, dependent: :restrict_with_error
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { scope: :parent_id, case_sensitive: false }
 end
