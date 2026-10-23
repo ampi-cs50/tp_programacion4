@@ -37,7 +37,14 @@ function ProductDetail() {
   }, [id]);
 
   if (loading) return <div className="loader"></div>;
-  if (error) return <div className="container" style={{textAlign: 'center', marginTop: '40px'}}><p className="error-message">{error}</p><Link to="/productos" className="btn btn-outline" style={{marginTop: '20px'}}>Volver a productos</Link></div>;
+  if (error) return (
+    <div className="container" style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+      <p className="error-message">{error}</p>
+      <Link to="/productos" className="btn btn-outline" style={{ marginTop: '1.25rem' }}>
+        Volver a productos
+      </Link>
+    </div>
+  );
   if (!product) return null;
 
   const uniqueColorsMap = new Map();
@@ -73,48 +80,54 @@ function ProductDetail() {
   };
 
   return (
-    <div className="container" style={{ display: 'flex', gap: '40px', marginTop: '60px', marginBottom: '60px', flexWrap: 'wrap' }}>
-      <div style={{ flex: '1', minWidth: '300px' }}>
+    <div className="container" style={{ display: 'flex', gap: '2.5rem', marginTop: '3.75rem', marginBottom: '3.75rem', flexWrap: 'wrap' }}>
+      <div style={{ flex: '1', minWidth: '18.75rem' }}>
         {product.image_url ? (
-          <img src={product.image_url} alt={product.name} style={{ width: '100%', borderRadius: '8px' }} />
+          <img src={product.image_url} alt={product.name} style={{ width: '100%', borderRadius: '0.5rem' }} />
         ) : (
-          <div style={{ width: '100%', aspectRatio: '4/5', background: '#eaeaea', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '100%', aspectRatio: '4/5', background: '#eaeaea', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ color: '#888' }}>Sin imagen</span>
           </div>
         )}
       </div>
       
-      <div style={{ flex: '1', minWidth: '300px', display: 'flex', flexDirection: 'column' }}>
-        <nav style={{ fontSize: '0.85rem', color: 'var(--lulu-dark-gray)', marginBottom: '15px' }}>
-          <Link to="/productos" style={{ textDecoration: 'underline' }}>Productos</Link> / {product.category?.name || "Categoría"}
+      <div style={{ flex: '1', minWidth: '18.75rem', display: 'flex', flexDirection: 'column' }}>
+        <nav style={{ fontSize: '0.85rem', color: 'var(--lulu-dark-gray)', marginBottom: '0.9375rem' }}>
+          <Link to="/productos" style={{ textDecoration: 'underline' }}>Productos</Link>
+          {product.category?.parent_name && (
+            <> / <Link to={`/productos?categoria=${product.category.parent_name}`} style={{ textDecoration: 'underline' }}>{product.category.parent_name}</Link></>
+          )}
+          {product.category?.name && (
+            <> / <Link to={`/productos?categoria=${product.category.parent_name || ''}&subcategoria=${product.category.name}`} style={{ textDecoration: 'underline' }}>{product.category.name}</Link></>
+          )}
         </nav>
         
-        <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '15px' }}>{product.name}</h1>
-        <p style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '30px' }}>${parseFloat(product.price).toFixed(2)}</p>
+        <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '0.9375rem' }}>{product.name}</h1>
+        <p style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1.875rem' }}>${parseFloat(product.price).toFixed(2)}</p>
         
-        <div style={{ marginBottom: '30px' }}>
+        <div style={{ marginBottom: '1.875rem' }}>
           <p style={{ color: 'var(--lulu-dark-gray)' }}>{product.description || "Un producto diseñado para el máximo rendimiento y comodidad. Ideal para tu día a día o tus entrenamientos más intensos."}</p>
         </div>
 
         {uniqueColors.length > 0 && (
-          <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontWeight: 'bold', marginBottom: '10px' }}>Color: <span style={{ fontWeight: 'normal', color: 'var(--lulu-dark-gray)' }}>{selectedColor}</span></p>
-            <div style={{ display: 'flex', gap: '15px' }}>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <p style={{ fontWeight: 'bold', marginBottom: '0.625rem' }}>Color: <span style={{ fontWeight: 'normal', color: 'var(--lulu-dark-gray)' }}>{selectedColor}</span></p>
+            <div style={{ display: 'flex', gap: '0.9375rem' }}>
               {uniqueColors.map(c => (
                 <button 
                   key={c.color}
                   onClick={() => setSelectedColor(c.color)}
                   title={c.color}
                   style={{
-                    width: '40px',
-                    height: '40px',
+                    width: '2.5rem',
+                    height: '2.5rem',
                     borderRadius: '50%',
                     backgroundColor: c.hex,
-                    border: selectedColor === c.color ? '2px solid #000' : '1px solid #ddd',
-                    outline: selectedColor === c.color ? '2px solid #fff' : 'none',
-                    outlineOffset: '-4px',
+                    border: selectedColor === c.color ? '0.125rem solid #000' : '0.0625rem solid #ddd',
+                    outline: selectedColor === c.color ? '0.125rem solid #fff' : 'none',
+                    outlineOffset: '-0.25rem',
                     cursor: 'pointer',
-                    boxShadow: selectedColor === c.color ? '0 0 0 2px #000' : 'none',
+                    boxShadow: selectedColor === c.color ? '0 0 0 0.125rem #000' : 'none',
                     padding: 0
                   }}
                 />
@@ -124,12 +137,12 @@ function ProductDetail() {
         )}
 
         {uniqueSizes.length > 0 && (
-          <div style={{ marginBottom: '30px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <div style={{ marginBottom: '1.875rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.625rem' }}>
               <p style={{ fontWeight: 'bold', margin: 0 }}>Talle: <span style={{ fontWeight: 'normal', color: 'var(--lulu-dark-gray)' }}>{selectedSize}</span></p>
               <span style={{ fontSize: '0.85rem', color: 'var(--lulu-dark-gray)', textDecoration: 'underline', cursor: 'pointer' }}>Guía de talles</span>
             </div>
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
               {uniqueSizes.map(size => {
                 const v = product.variants?.find(v => v.color === selectedColor && v.size === size);
                 const hasStock = v && v.stock > 0;
@@ -139,10 +152,10 @@ function ProductDetail() {
                     onClick={() => setSelectedSize(size)}
                     disabled={!hasStock}
                     style={{
-                      width: '60px',
-                      height: '40px',
-                      border: selectedSize === size ? '2px solid #000' : '1px solid #ccc',
-                      borderRadius: '4px',
+                      width: '3.75rem',
+                      height: '2.5rem',
+                      border: selectedSize === size ? '0.125rem solid #000' : '0.0625rem solid #ccc',
+                      borderRadius: '0.25rem',
                       background: hasStock ? '#fff' : '#f5f5f5',
                       color: hasStock ? '#000' : '#aaa',
                       cursor: hasStock ? 'pointer' : 'not-allowed',
@@ -152,7 +165,7 @@ function ProductDetail() {
                     }}
                   >
                     {size}
-                    {!hasStock && <div style={{ position: 'absolute', top: '50%', left: '-10%', width: '120%', height: '1px', background: '#aaa', transform: 'rotate(20deg)' }}></div>}
+                    {!hasStock && <div style={{ position: 'absolute', top: '50%', left: '-10%', width: '120%', height: '0.0625rem', background: '#aaa', transform: 'rotate(20deg)' }}></div>}
                   </button>
                 );
               })}
@@ -160,20 +173,20 @@ function ProductDetail() {
           </div>
         )}
 
-        <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <div style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.9375rem' }}>
           <label style={{ fontWeight: 'bold' }}>Cantidad:</label>
-          <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', borderRadius: '4px', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', alignItems: 'center', border: '0.0625rem solid #ccc', borderRadius: '0.25rem', overflow: 'hidden' }}>
             <button 
-              style={{ padding: '10px 15px', background: '#f9f9f9', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
+              style={{ padding: '0.625rem 0.9375rem', background: '#f9f9f9', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
               onClick={() => setQuantity(q => Math.max(1, q - 1))}
             >
               -
             </button>
-            <span style={{ padding: '10px 20px', fontSize: '1rem', borderLeft: '1px solid #ccc', borderRight: '1px solid #ccc' }}>
+            <span style={{ padding: '0.625rem 1.25rem', fontSize: '1rem', borderLeft: '0.0625rem solid #ccc', borderRight: '0.0625rem solid #ccc' }}>
               {quantity}
             </span>
             <button 
-              style={{ padding: '10px 15px', background: '#f9f9f9', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
+              style={{ padding: '0.625rem 0.9375rem', background: '#f9f9f9', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
               onClick={() => setQuantity(q => q + 1)}
             >
               +
@@ -182,7 +195,7 @@ function ProductDetail() {
         </div>
 
         {quantity > variantStock && (
-          <p style={{ color: 'var(--lulu-red)', fontWeight: 'bold', marginBottom: '10px' }}>
+          <p style={{ color: 'var(--lulu-red)', fontWeight: 'bold', marginBottom: '0.625rem' }}>
             No hay stock suficiente para esta cantidad.
           </p>
         )}
@@ -190,9 +203,9 @@ function ProductDetail() {
         <button 
           className="btn btn-black" 
           style={{ 
-            padding: '16px', 
+            padding: '1rem', 
             fontSize: '1.1rem', 
-            marginBottom: '15px', 
+            marginBottom: '0.9375rem', 
             background: added ? '#4caf50' : (variantStock <= 0 || quantity > variantStock ? '#ccc' : ''), 
             borderColor: added ? '#4caf50' : (variantStock <= 0 || quantity > variantStock ? '#ccc' : ''),
             cursor: (variantStock <= 0 || quantity > variantStock) ? 'not-allowed' : 'pointer'
@@ -202,11 +215,11 @@ function ProductDetail() {
         >
           {added ? '¡Agregado!' : (variantStock <= 0 ? 'Agotado en esta combinación' : 'Agregar al carrito')}
         </button>
-        <button className="btn btn-outline" style={{ padding: '16px', fontSize: '1.1rem' }}>
+        <button className="btn btn-outline" style={{ padding: '1rem', fontSize: '1.1rem' }}>
           Favoritos
         </button>
 
-        <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid var(--lulu-border)' }}>
+        <div style={{ marginTop: '2.5rem', paddingTop: '1.25rem', borderTop: '0.0625rem solid var(--lulu-border)' }}>
           <p style={{ fontSize: '0.9rem', color: 'var(--lulu-dark-gray)' }}>
             <strong>Disponibilidad:</strong> {variantStock > 0 ? "En stock" : "Agotado"}
           </p>

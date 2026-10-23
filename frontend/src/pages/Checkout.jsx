@@ -157,52 +157,52 @@ function Checkout() {
 
   if (success) {
     return (
-      <div className="container" style={{ textAlign: 'center', margin: '80px auto', maxWidth: '600px' }}>
-        <div style={{ fontSize: '4rem', marginBottom: '20px' }}>✅</div>
+      <div className="container" style={{ textAlign: 'center', margin: '5rem auto', maxWidth: '37.5rem' }}>
+        <div style={{ fontSize: '4rem', marginBottom: '1.25rem' }}>✅</div>
         <h1 className="section-title">¡Compra Exitosa!</h1>
-        <p style={{ fontSize: '1.2rem', color: 'var(--lulu-dark-gray)', marginBottom: '30px' }}>
+        <p style={{ fontSize: '1.2rem', color: 'var(--lulu-dark-gray)', marginBottom: '1.875rem' }}>
           {success}
           <br/>
           Te enviamos un correo electrónico con los detalles del envío.
         </p>
-        <Link to="/productos" className="btn btn-black" style={{ padding: '15px 30px' }}>
+        <Link to="/productos" className="btn btn-black" style={{ padding: '0.9375rem 1.875rem' }}>
           Seguir comprando
         </Link>
       </div>
     );
   }
 
-  const InputError = ({ msg }) => msg ? <div style={{ color: 'var(--lulu-red)', fontSize: '0.8rem', marginTop: '4px' }}>{msg}</div> : null;
+  const InputError = ({ msg }) => msg ? <div style={{ color: 'var(--lulu-red)', fontSize: '0.8rem', marginTop: '0.25rem' }}>{msg}</div> : null;
 
   return (
-    <div className="container" style={{ margin: '60px auto', maxWidth: '1000px' }}>
+    <div className="container" style={{ margin: '3.75rem auto', maxWidth: '62.5rem' }}>
       <h1 className="section-title">Finalizar Compra</h1>
 
       {error && (
-        <div style={{ background: '#fef2f2', border: '1px solid #ef4444', color: '#b91c1c', padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+        <div style={{ background: '#fef2f2', border: '0.0625rem solid #ef4444', color: '#b91c1c', padding: '0.625rem', borderRadius: '0.25rem', marginBottom: '1.25rem' }}>
           {error}
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap-reverse' }}>
-        <div style={{ flex: '2', minWidth: '300px' }}>
+      <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap-reverse' }}>
+        <div style={{ flex: '2', minWidth: '18.75rem' }}>
           <form onSubmit={handleCheckout} noValidate>
-            <h2 style={{ fontSize: '1.3rem', borderBottom: '1px solid #ddd', paddingBottom: '10px', marginBottom: '20px' }}>1. Método de Entrega</h2>
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-              <label style={{ flex: 1, border: deliveryMethod === 'shipping' ? '2px solid #000' : '1px solid #ccc', padding: '15px', borderRadius: '8px', cursor: 'pointer', textAlign: 'center', background: deliveryMethod === 'shipping' ? '#fafafa' : '#fff' }}>
+            <h2 style={{ fontSize: '1.3rem', borderBottom: '0.0625rem solid #ddd', paddingBottom: '0.625rem', marginBottom: '1.25rem' }}>1. Método de Entrega</h2>
+            <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '1.25rem' }}>
+              <label style={{ flex: 1, border: deliveryMethod === 'shipping' ? '0.125rem solid #000' : '0.0625rem solid #ccc', padding: '0.9375rem', borderRadius: '0.5rem', cursor: 'pointer', textAlign: 'center', background: deliveryMethod === 'shipping' ? '#fafafa' : '#fff' }}>
                 <input type="radio" name="deliveryMethod" value="shipping" checked={deliveryMethod === 'shipping'} onChange={() => setDeliveryMethod('shipping')} style={{ display: 'none' }} />
-                <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>Envío a Domicilio</div>
+                <div style={{ fontWeight: 'bold', marginBottom: '0.3125rem' }}>Envío a Domicilio</div>
                 <div style={{ fontSize: '0.85rem', color: 'var(--lulu-dark-gray)' }}>Llega en 3-5 días hábiles</div>
               </label>
-              <label style={{ flex: 1, border: deliveryMethod === 'pickup' ? '2px solid #000' : '1px solid #ccc', padding: '15px', borderRadius: '8px', cursor: 'pointer', textAlign: 'center', background: deliveryMethod === 'pickup' ? '#fafafa' : '#fff' }}>
+              <label style={{ flex: 1, border: deliveryMethod === 'pickup' ? '0.125rem solid #000' : '0.0625rem solid #ccc', padding: '0.9375rem', borderRadius: '0.5rem', cursor: 'pointer', textAlign: 'center', background: deliveryMethod === 'pickup' ? '#fafafa' : '#fff' }}>
                 <input type="radio" name="deliveryMethod" value="pickup" checked={deliveryMethod === 'pickup'} onChange={() => setDeliveryMethod('pickup')} style={{ display: 'none' }} />
-                <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>Retiro en Tienda</div>
+                <div style={{ fontWeight: 'bold', marginBottom: '0.3125rem' }}>Retiro en Tienda</div>
                 <div style={{ fontSize: '0.85rem', color: 'var(--lulu-dark-gray)' }}>Gratis y rápido</div>
               </label>
             </div>
 
-            <h2 style={{ fontSize: '1.3rem', borderBottom: '1px solid #ddd', paddingBottom: '10px', marginBottom: '20px' }}>2. Mis Datos</h2>
-            <div style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
+            <h2 style={{ fontSize: '1.3rem', borderBottom: '0.0625rem solid #ddd', paddingBottom: '0.625rem', marginBottom: '1.25rem' }}>2. Mis Datos</h2>
+            <div style={{ display: 'flex', gap: '0.9375rem', marginBottom: '0.9375rem' }}>
               <div className="form-group" style={{ flex: '1' }}>
                 <label>Nombre</label>
                 <input type="text" name="firstName" className="form-control" required value={formData.firstName} onChange={handleChange} />
@@ -222,7 +222,7 @@ function Checkout() {
                   <input type="text" name="address" className="form-control" placeholder="Calle y número" required value={formData.address} onChange={handleChange} />
                   <InputError msg={formErrors.address} />
                 </div>
-                <div style={{ display: 'flex', gap: '15px', marginBottom: '40px' }}>
+                <div style={{ display: 'flex', gap: '0.9375rem', marginBottom: '2.5rem' }}>
                   <div className="form-group" style={{ flex: '2' }}>
                     <label>Ciudad / Localidad</label>
                     <input type="text" name="city" className="form-control" required value={formData.city} onChange={handleChange} />
@@ -237,13 +237,13 @@ function Checkout() {
               </>
             )}
 
-            <h2 style={{ fontSize: '1.3rem', borderBottom: '1px solid #ddd', paddingBottom: '10px', marginBottom: '20px' }}>2. Método de Pago</h2>
+            <h2 style={{ fontSize: '1.3rem', borderBottom: '0.0625rem solid #ddd', paddingBottom: '0.625rem', marginBottom: '1.25rem' }}>2. Método de Pago</h2>
             <div className="form-group">
               <label>Número de Tarjeta</label>
               <input type="text" name="cardNumber" className="form-control" placeholder="0000 0000 0000 0000" required value={formData.cardNumber} onChange={handleChange} />
               <InputError msg={formErrors.cardNumber} />
             </div>
-            <div style={{ display: 'flex', gap: '15px', marginBottom: '30px' }}>
+            <div style={{ display: 'flex', gap: '0.9375rem', marginBottom: '1.875rem' }}>
               <div className="form-group" style={{ flex: '1' }}>
                 <label>Vencimiento</label>
                 <input type="text" name="cardExpiry" className="form-control" placeholder="MM/AA" required value={formData.cardExpiry} onChange={handleChange} />
@@ -259,7 +259,7 @@ function Checkout() {
             <button 
               type="submit" 
               className="btn btn-black" 
-              style={{ width: '100%', padding: '18px', fontSize: '1.2rem' }}
+              style={{ width: '100%', padding: '1.125rem', fontSize: '1.2rem' }}
               disabled={loading}
             >
               {loading ? 'Procesando pago...' : `Pagar $${cartTotal.toFixed(2)}`}
@@ -267,29 +267,29 @@ function Checkout() {
           </form>
         </div>
 
-        <div style={{ flex: '1', minWidth: '300px' }}>
-          <div style={{ background: '#fafafa', padding: '30px', borderRadius: '8px', position: 'sticky', top: '20px' }}>
-            <h2 style={{ fontSize: '1.3rem', marginTop: 0, marginBottom: '20px' }}>Resumen</h2>
+        <div style={{ flex: '1', minWidth: '18.75rem' }}>
+          <div style={{ background: '#fafafa', padding: '1.875rem', borderRadius: '0.5rem', position: 'sticky', top: '1.25rem' }}>
+            <h2 style={{ fontSize: '1.3rem', marginTop: 0, marginBottom: '1.25rem' }}>Resumen</h2>
             
-            <div style={{ marginBottom: '20px', borderBottom: '1px solid #ddd', paddingBottom: '15px' }}>
+            <div style={{ marginBottom: '1.25rem', borderBottom: '0.0625rem solid #ddd', paddingBottom: '0.9375rem' }}>
               {cartItems.map(item => (
-                <div key={item.cartItemId} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.9rem' }}>
+                <div key={item.cartItemId} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.625rem', fontSize: '0.9rem' }}>
                   <span>{item.quantity}x {item.name}</span>
                   <span>${(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', color: 'var(--lulu-dark-gray)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.9375rem', color: 'var(--lulu-dark-gray)' }}>
               <span>Subtotal</span>
               <span>${cartTotal.toFixed(2)}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', color: 'var(--lulu-dark-gray)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem', color: 'var(--lulu-dark-gray)' }}>
               <span>Envío</span>
               <span>Gratis</span>
             </div>
             
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '1.3rem', borderTop: '1px solid #ddd', paddingTop: '15px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '1.3rem', borderTop: '0.0625rem solid #ddd', paddingTop: '0.9375rem' }}>
               <span>Total a pagar</span>
               <span>${cartTotal.toFixed(2)}</span>
             </div>

@@ -86,13 +86,13 @@ function Login() {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '400px', margin: '80px auto' }}>
+    <div className="container" style={{ maxWidth: '25rem', margin: '5rem auto' }}>
       <h1 className="section-title" style={{ fontSize: '1.8rem', marginTop: 0, textTransform: 'none' }}>
         Inicia sesión o crea una cuenta
       </h1>
       
       {error && (
-        <div style={{ background: '#fef2f2', border: '1px solid #ef4444', color: '#b91c1c', padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+        <div style={{ background: '#fef2f2', border: '0.0625rem solid #ef4444', color: '#b91c1c', padding: '0.625rem', borderRadius: '0.25rem', marginBottom: '1.25rem' }}>
           {error}
         </div>
       )}
@@ -126,13 +126,13 @@ function Login() {
         <button 
           type="submit" 
           className="btn btn-black" 
-          style={{ width: '100%', marginTop: '10px' }}
+          style={{ width: '100%', marginTop: '0.625rem' }}
           disabled={loading}
         >
           {loading ? 'Procesando...' : (isLogin ? 'Continuar' : 'Crear Cuenta')}
         </button>
 
-        <div style={{ textAlign: 'center', marginTop: '15px' }}>
+        <div style={{ textAlign: 'center', marginTop: '0.9375rem' }}>
           <button 
             type="button" 
             onClick={() => setIsLogin(!isLogin)} 
@@ -143,7 +143,7 @@ function Login() {
         </div>
       </form>
 
-      <div style={{ textAlign: 'center', margin: '30px 0', color: 'var(--lulu-dark-gray)', fontSize: '0.9rem' }}>
+      <div style={{ textAlign: 'center', margin: '1.875rem 0', color: 'var(--lulu-dark-gray)', fontSize: '0.9rem' }}>
         o
       </div>
 
