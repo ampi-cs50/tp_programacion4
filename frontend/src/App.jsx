@@ -23,8 +23,8 @@ function App() {
         </Routes>
       </main>
       
-      <footer style={{ background: '#fafafa', padding: '40px', marginTop: '60px', borderTop: '1px solid #e6e6e6', textAlign: 'center', color: '#4a4a4a', fontSize: '0.9rem' }}>
-        <p>&copy; {new Date().getFullYear()} Lulutienda. Todos los derechos reservados.</p>
+      <footer style={{ background: '#fafafa', padding: '2.5rem', marginTop: '3.75rem', borderTop: '0.0625rem solid #e6e6e6', textAlign: 'center', color: '#4a4a4a', fontSize: '0.9rem' }}>
+        <p>&copy; {new Date().getFullYear()} Midori's Flow. Todos los derechos reservados.</p>
       </footer>
     </>
   );
