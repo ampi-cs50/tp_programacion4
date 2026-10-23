@@ -1,2 +1,32 @@
 #!/usr/bin/env ruby
-exec "./bin/rails", "server", *ARGV
+# frozen_string_literal: true
+
+root_dir = File.expand_path("..", __dir__)
+frontend_dir = File.join(root_dir, "frontend")
+
+pids = []
+
+# Levantar backend Rails
+pids << spawn("./bin/rails", "server", *ARGV, chdir: root_dir)
+
+# Levantar frontend React (Vite)
+pids << spawn("npm", "run", "dev", chdir: frontend_dir)
+
+# Apagar ambos procesos limpiamente al presionar Ctrl+C
+%w[INT TERM].each do |signal|
+  trap(signal) do
+    puts "\nDeteniendo servidores..."
+    pids.each do |pid|
+      Process.kill("TERM", pid)
+    rescue Errno::ESRCH, Errno::ECHILD
+      # El proceso ya terminó
+    end
+  end
+end
+
+begin
+  Process.waitall
+rescue Interrupt
+  # Interrupción capturada por el trap
+end
+
