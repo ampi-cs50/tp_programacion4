@@ -46,7 +46,7 @@ sub_a_bolsos   = Category.find_or_create_by!(name: "Riñoneras & Bolsos", parent
 sub_a_botellas = Category.find_or_create_by!(name: "Botellas & Complementos", parent: cat_accesorios)
 
 puts "Categorías Midori's Flow listas:"
-[cat_mujer, cat_hombre, cat_accesorios].each do |p|
+[ cat_mujer, cat_hombre, cat_accesorios ].each do |p|
   puts " - #{p.name}: #{p.subcategories.pluck(:name).join(', ')}"
 end
 
@@ -230,7 +230,7 @@ activewear_catalog = [
 ]
 
 # Eliminar productos viejos que NO tengan ordenes de compra para limpiar la base de datos
-old_prods_to_remove = Product.where.not(id: [1, 2])
+old_prods_to_remove = Product.where.not(id: [ 1, 2 ])
 old_prods_to_remove.each do |p|
   if p.order_items.empty?
     p.images.purge if p.images.attached?
@@ -241,9 +241,9 @@ end
 activewear_catalog.each do |p_data|
   product = if p_data[:target_id]
               Product.find_or_initialize_by(id: p_data[:target_id])
-            else
+  else
               Product.find_or_initialize_by(name: p_data[:name])
-            end
+  end
 
   product.name = p_data[:name]
   product.category = p_data[:category]

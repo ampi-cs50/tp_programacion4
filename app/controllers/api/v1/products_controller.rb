@@ -9,13 +9,13 @@ module Api
         if params[:category_id].present?
           cat = Category.find_by(id: params[:category_id])
           if cat
-            cat_ids = [cat.id] + cat.subcategories.pluck(:id)
+            cat_ids = [ cat.id ] + cat.subcategories.pluck(:id)
             @products = @products.where(category_id: cat_ids)
           end
         elsif params[:category].present?
           cat = Category.where("LOWER(name) = ?", params[:category].downcase.strip).first
           if cat
-            cat_ids = [cat.id] + cat.subcategories.pluck(:id)
+            cat_ids = [ cat.id ] + cat.subcategories.pluck(:id)
             @products = @products.where(category_id: cat_ids)
           end
         end
@@ -61,6 +61,7 @@ module Api
             parent_name: product.category.parent&.name
           } : nil,
           image_url: (product.images.attached? ? Rails.application.routes.url_helpers.rails_blob_url(product.images.first, host: request.base_url) : nil),
+          image_file: (product.images.attached? ? product.images.first.blob.filename.to_s : nil),
           variants: product.product_variants.map do |v|
             {
               id: v.id,

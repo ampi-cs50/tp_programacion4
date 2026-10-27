@@ -65,22 +65,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "bcrypt", "~> 3.1.7"
-
-group :development, :test do
-  gem "rubocop", require: false
-  gem "rubocop-rails", require: false
-  gem "brakeman", require: false
-end
-
-gem "bcrypt", "~> 3.1.7"
-
-group :development, :test do
-  gem "rubocop", require: false
-  gem "rubocop-rails", require: false
-  gem "brakeman", require: false
-end
-
 gem "rack-cors", "~> 3.0"
 
 gem "google-id-token", "~> 1.4"
