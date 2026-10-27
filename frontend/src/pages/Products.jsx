@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { getProductImageUrl } from '../utils/imageHelper';
 
 const API_URL = 'http://localhost:3000/api/v1';
 
@@ -254,11 +255,21 @@ function Products() {
               new Map(product.variants.map(v => [v.color, v.hex_color])).entries()
             ).map(([name, hex]) => ({ name, hex })) : [];
 
+            const imgSrc = getProductImageUrl(product);
+
             return (
               <Link to={`/productos/${product.id}`} key={product.id} className="product-card">
                 <div className="product-img-wrapper">
-                  {product.image_url ? (
-                    <img src={product.image_url} alt={product.name} loading="lazy" />
+                  {imgSrc ? (
+                    <img 
+                      src={imgSrc} 
+                      alt={product.name} 
+                      loading="lazy" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/products/align_leggings.jpg';
+                      }}
+                    />
                   ) : (
                     <div style={{ width: '100%', height: '100%', background: '#eaeaea', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ color: '#999', fontSize: '0.8rem' }}>Sin imagen</span>

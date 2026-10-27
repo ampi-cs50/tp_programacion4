@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import { getProductImageUrl } from '../utils/imageHelper';
 
 function Cart() {
   const { cartItems, removeFromCart, updateQuantity, cartTotal, cartCount } = useContext(CartContext);
@@ -36,15 +37,25 @@ function Cart() {
 
       <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '2', minWidth: '18.75rem' }}>
-          {cartItems.map(item => (
-            <div key={item.cartItemId} style={{ display: 'flex', gap: '1.25rem', borderBottom: '0.0625rem solid var(--lulu-border)', paddingBottom: '1.25rem', marginBottom: '1.25rem' }}>
-              <div style={{ width: '7.5rem', height: '9.375rem', background: '#eaeaea', borderRadius: '0.25rem', overflow: 'hidden' }}>
-                {item.image_url ? (
-                  <img src={item.image_url} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ color: '#999', fontSize: '0.7rem' }}>Sin imagen</span></div>
-                )}
-              </div>
+          {cartItems.map(item => {
+            const imgSrc = getProductImageUrl(item);
+            return (
+              <div key={item.cartItemId} style={{ display: 'flex', gap: '1.25rem', borderBottom: '0.0625rem solid var(--lulu-border)', paddingBottom: '1.25rem', marginBottom: '1.25rem' }}>
+                <div style={{ width: '7.5rem', height: '9.375rem', background: '#eaeaea', borderRadius: '0.25rem', overflow: 'hidden' }}>
+                  {imgSrc ? (
+                    <img 
+                      src={imgSrc} 
+                      alt={item.name} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/products/align_leggings.jpg';
+                      }}
+                    />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ color: '#999', fontSize: '0.7rem' }}>Sin imagen</span></div>
+                  )}
+                </div>
               <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <h3 style={{ fontSize: '1.2rem', margin: '0 0 0.625rem 0' }}>{item.name}</h3>
@@ -89,7 +100,8 @@ function Cart() {
                 </div>
               </div>
             </div>
-          ))}
+          );
+        })}
         </div>
 
         <div style={{ flex: '1', minWidth: '18.75rem' }}>

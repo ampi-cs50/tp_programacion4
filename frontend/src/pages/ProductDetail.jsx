@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { CartContext } from '../context/CartContext';
+import { getProductImageUrl } from '../utils/imageHelper';
 
 const API_URL = 'http://localhost:3000/api/v1';
 
@@ -82,8 +83,16 @@ function ProductDetail() {
   return (
     <div className="container" style={{ display: 'flex', gap: '2.5rem', marginTop: '3.75rem', marginBottom: '3.75rem', flexWrap: 'wrap' }}>
       <div style={{ flex: '1', minWidth: '18.75rem' }}>
-        {product.image_url ? (
-          <img src={product.image_url} alt={product.name} style={{ width: '100%', borderRadius: '0.5rem' }} />
+        {getProductImageUrl(product) ? (
+          <img 
+            src={getProductImageUrl(product)} 
+            alt={product.name} 
+            style={{ width: '100%', borderRadius: '0.5rem' }} 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/products/align_leggings.jpg';
+            }}
+          />
         ) : (
           <div style={{ width: '100%', aspectRatio: '4/5', background: '#eaeaea', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ color: '#888' }}>Sin imagen</span>

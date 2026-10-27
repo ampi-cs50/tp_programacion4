@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { getProductImageUrl } from '../utils/imageHelper';
 
 const API_URL = 'http://localhost:3000/api/v1';
 
@@ -31,29 +32,29 @@ function Home() {
     <div>
       {/* HERO BANNER */}
       <div className="hero-banner">
-        <img 
-          src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&auto=format&fit=crop&q=80" 
-          alt="Yoga y Running Activewear" 
+        <img
+          src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&auto=format&fit=crop&q=80"
+          alt="Yoga y Running Activewear"
         />
         <div className="hero-content">
           <h1>Siente el movimiento</h1>
-          <p>Indumentaria técnica para yoga, pilates, running y caminata diaria. Diseñada para acompañar cada uno de tus movimientos.</p>
+          <p>Rendimiento sutil para moverte sin límites. Precisión técnica para cada práctica y cada día</p>
           <div style={{ display: 'flex', gap: '0.9375rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/productos?categoria=Mujer" className="btn btn-primary">Comprar Mujer</Link>
             <Link to="/productos?categoria=Hombre" className="btn btn-black">Comprar Hombre</Link>
           </div>
         </div>
       </div>
-      
+
       {/* SECCIÓN CATEGORÍAS PRINCIPALES (MIDORI'S FLOW) */}
       <div className="container" style={{ marginTop: '3.125rem' }}>
         <h2 className="section-title">Comprar por Colección</h2>
         <div className="category-home-grid">
           {/* Tarjeta Mujer */}
           <Link to="/productos?categoria=Mujer" className="category-home-card" style={{ background: '#f5f5f5' }}>
-            <img 
-              src="/products/align_leggings.jpg" 
-              alt="Colección Mujer - Yoga & Pilates" 
+            <img
+              src="/products/align_leggings.jpg"
+              alt="Colección Mujer - Yoga & Pilates"
               style={{ objectFit: 'contain', padding: '1.25rem' }}
             />
             <div className="category-home-overlay">
@@ -65,9 +66,9 @@ function Home() {
 
           {/* Tarjeta Hombre */}
           <Link to="/productos?categoria=Hombre" className="category-home-card" style={{ background: '#f5f5f5' }}>
-            <img 
-              src="/products/abc_jogger.jpg" 
-              alt="Colección Hombre - Running & Training" 
+            <img
+              src="/products/abc_jogger.jpg"
+              alt="Colección Hombre - Running & Training"
               style={{ objectFit: 'contain', padding: '1.25rem' }}
             />
             <div className="category-home-overlay">
@@ -79,9 +80,9 @@ function Home() {
 
           {/* Tarjeta Accesorios */}
           <Link to="/productos?categoria=Accesorios" className="category-home-card" style={{ background: '#f5f5f5' }}>
-            <img 
-              src="/products/yoga_mat.jpg" 
-              alt="Accesorios - Mats, Riñoneras & Botellas" 
+            <img
+              src="/products/yoga_mat.jpg"
+              alt="Accesorios - Mats, Riñoneras & Botellas"
               style={{ objectFit: 'contain', padding: '1.25rem' }}
             />
             <div className="category-home-overlay">
@@ -109,24 +110,35 @@ function Home() {
           <div className="loader"></div>
         ) : (
           <div className="product-grid" style={{ padding: '0 0 1.25rem' }}>
-            {featuredProducts.map(product => (
-              <Link to={`/productos/${product.id}`} key={product.id} className="product-card">
-                <div className="product-img-wrapper">
-                  {product.image_url ? (
-                    <img src={product.image_url} alt={product.name} loading="lazy" />
-                  ) : (
-                    <div style={{ width: '100%', height: '100%', background: '#eaeaea', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ color: '#999', fontSize: '0.8rem' }}>Sin imagen</span>
-                    </div>
-                  )}
-                </div>
+            {featuredProducts.map(product => {
+              const imgSrc = getProductImageUrl(product);
+              return (
+                <Link to={`/productos/${product.id}`} key={product.id} className="product-card">
+                  <div className="product-img-wrapper">
+                    {imgSrc ? (
+                      <img 
+                        src={imgSrc} 
+                        alt={product.name} 
+                        loading="lazy" 
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/products/align_leggings.jpg';
+                        }}
+                      />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', background: '#eaeaea', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ color: '#999', fontSize: '0.8rem' }}>Sin imagen</span>
+                      </div>
+                    )}
+                  </div>
                 <div className="product-info">
                   <span className="product-brand">{product.category?.name || "Colección"}</span>
                   <h3 className="product-name">{product.name}</h3>
                   <span className="product-price">{formatPrice(product.price)}</span>
                 </div>
               </Link>
-            ))}
+            );
+          })}
           </div>
         )}
       </div>
