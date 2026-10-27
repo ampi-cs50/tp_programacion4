@@ -1,120 +1,178 @@
-# E-commerce - API, Back-office & Frontend
+# Midori's Flow - E-commerce de Indumentaria Técnica y Activewear
 
-Este proyecto consiste en una aplicación web de comercio electrónico (Tienda de productos) con un backend desarrollado en **Ruby on Rails 8.1** y un frontend desarrollado en **React**.
-
-## Objetivo del Sistema
-Proveer un sistema robusto que permita a los administradores gestionar el catálogo de productos y visualizar las órdenes (Back-office), mientras que el Frontend consume una API JSON para que los clientes puedan consultar el catálogo, registrarse, iniciar sesión (incluyendo Google OAuth) y realizar compras.
-
-## Estructura del Proyecto
-El repositorio contiene tanto el backend (Rails) en el directorio principal, como el frontend (React) en el directorio `/frontend`.
+**Materia:** Programación IV  
+**Trabajo Práctico:** N.º 2 - Integración de back-end y front-end  
+**Modalidad:** Individual  
+**Autor:** ampi-cs50  
+**Stack Principal:** Ruby on Rails 8.1 (API + Back-office) & React 19 (Vite SPA)  
 
 ---
 
-## Instalación y Configuración del Backend (Rails)
+## 1. Descripción del Proyecto
 
-Sigue estos pasos para levantar el backend localmente:
+**Midori's Flow** es una plataforma de comercio electrónico especializada en indumentaria deportiva técnica y activewear de alto rendimiento (yoga, pilates, running y entrenamiento).
 
-1. **Instalar dependencias:**
-   Asegúrate de tener Ruby 3.4.10 instalado.
+El sistema fue concebido bajo una arquitectura desacoplada que combina:
+* **Backend (Ruby on Rails 8.1):** Provee una API REST JSON para la tienda virtual (`/api/v1/*`) y un Back-office administrativo integrado en servidor (`/admin`) para la gestión integral del catálogo, categorías, productos, variantes y órdenes de compra.
+* **Frontend (React 19 + Vite):** Single Page Application (SPA) interactiva, responsiva y orientada a la experiencia de usuario (UX). Implementa navegación con React Router DOM, gestión global de estado mediante Context API (autenticación y carrito de compras persistente en `localStorage`), consumo de la API mediante `fetch`, y diseño responsivo adaptativo implementado con unidades relativas `rem`.
+
+---
+
+## 2. Arquitectura y Tecnologías
+
+### Backend (Rails)
+* **Framework:** Ruby on Rails 8.1.3 (Ruby 3.4.10)
+* **Base de Datos:** SQLite 3 con migraciones y semillas idempotentes (`db/seeds.rb`).
+* **Almacenamiento Multimedia:** Active Storage para gestión y entrega de fotografías de catálogo de alta resolución.
+* **Autenticación:**
+  * **Back-office:** Autenticación basada en sesiones seguras de Rails (`has_secure_password` / BCrypt).
+  * **API REST:** Tokens de portador (*Bearer Token*) generados mediante `has_secure_token :api_token`.
+  * **Google OAuth 2.0:** Endpoint `/api/v1/auth/google` que valida criptográficamente el token emitido por Google Identity Services a través de la gema oficial `googleauth`.
+* **Seguridad y Estilo:** RuboCop (guía de estilo Ruby) y Brakeman (análisis estático de vulnerabilidades de seguridad).
+
+### Frontend (React)
+* **Librería UI:** React 19.1 con Vite 8.
+* **Enrutamiento:** React Router DOM v7 con rutas protegidas (`ProtectedRoute`).
+* **Estado Global:** Context API (`AuthContext` y `CartContext`).
+* **Estilos:** CSS Vanilla modular y responsivo, respetando escala tipográfica y espaciados calculados en unidades `rem`.
+* **Testing:** Vitest + React Testing Library + jsdom para pruebas automatizadas de interacción de usuario (casos de éxito y manejo de errores de red/validación).
+
+---
+
+## 3. Requisitos Previos
+
+* **Ruby:** versión `>= 3.4.0` (recomendado Ruby 3.4.10).
+* **Node.js:** versión `>= 18.0.0` (recomendado Node.js 20+ LTS).
+* **npm:** versión `>= 9.0.0`.
+* **Bundler:** versión `>= 2.5.0`.
+
+---
+
+## 4. Instalación y Puesta en Marcha
+
+Sigue estos pasos para ejecutar el proyecto en tu entorno local:
+
+### 4.1. Configuración del Backend (Rails)
+
+1. **Instalar gemas y dependencias:**
    ```bash
    bundle install
    ```
 
-2. **Preparar la Base de Datos:**
-   El proyecto utiliza SQLite en desarrollo.
+2. **Configurar variables de entorno:**
+   Copia el archivo de plantilla `.env.example` para generar tu `.env` local:
+   ```bash
+   cp .env.example .env
+   ```
+   *(Opcional: Si deseas probar el inicio de sesión con Google, configura tu `GOOGLE_CLIENT_ID` en este archivo).*
+
+3. **Inicializar y poblar la Base de Datos:**
    ```bash
    bin/rails db:setup
+   bin/rails db:seed
    ```
+   *El seeder cargará categorías organizadas jerárquicamente, productos de indumentaria deportiva con variantes de talle/color/stock, imágenes de estudio adjuntas mediante Active Storage, y el usuario administrador de prueba.*
 
-3. **Configurar Variables de Entorno:**
-   Asegúrate de configurar el archivo `.env` en la raíz del proyecto para Google OAuth:
-   ```env
-   GOOGLE_CLIENT_ID=tu_client_id_aqui
-   ```
-
-4. **Levantar el servidor backend:**
+4. **Iniciar el servidor backend:**
    ```bash
    bin/rails server
    ```
-   El backend se ejecutará por defecto en `http://localhost:3000`.
+   *El servidor quedará disponible en: `http://localhost:3000`.*
 
 ---
 
-## Instalación y Configuración del Frontend (React)
+### 4.2. Configuración del Frontend (React + Vite)
 
-1. **Ir al directorio del frontend:**
+1. **Navegar a la carpeta del frontend:**
    ```bash
    cd frontend
    ```
 
-2. **Instalar dependencias:**
-   Asegúrate de tener Node.js instalado.
+2. **Instalar paquetes npm:**
    ```bash
    npm install
    ```
 
-3. **Configurar Variables de Entorno:**
-   Crea un archivo `.env` dentro de `frontend/` y configura las variables necesarias (ej: URL de la API y Google Client ID).
+3. **Configurar variables de entorno del frontend:**
+   Copia la plantilla de variables de entorno:
+   ```bash
+   cp .env.example .env
+   ```
+   *(Por defecto, Vite redirige las peticiones `/api/v1` al backend en el puerto 3000 a través del proxy integrado).*
 
-4. **Levantar el servidor de desarrollo del frontend:**
+4. **Iniciar el servidor de desarrollo:**
    ```bash
    npm run dev
    ```
-   El frontend estará disponible (generalmente en `http://localhost:5173`).
+   *La tienda virtual estará disponible en: `http://localhost:5173`.*
 
 ---
 
-## Tipos de Usuario y Accesos
+## 5. Credenciales y Cuentas de Acceso
 
-El sistema contempla dos tipos de usuarios (ambos gestionados mediante el modelo `User`):
-
-1. **Administradores (Back-office):**
-   - Tienen acceso a la URL `/admin`.
-   - Autenticación manejada mediante el sistema de sesiones de Rails.
-   - *Nota: Por motivos de seguridad, las credenciales de administrador no se incluyen en este archivo. Puedes crear un usuario administrador desde la consola de Rails (`rails c`) o mediante el archivo `db/seeds.rb`.*
-
-2. **Usuarios Finales (Frontend/API):**
-   - Consumen los endpoints `/api/v1/*`.
-   - Autenticación manejada mediante **Token de API** (`api_token`) o integración con Google OAuth.
+| Rol / Tipo de Usuario | URL de Acceso | Email | Contraseña | Método de Autenticación |
+|---|---|---|---|---|
+| **Administrador (Back-office)** | `http://localhost:3000/admin` | `admin@midorisflow.com` | `password123` | Sesión tradicional en servidor |
+| **Cliente (Tienda Virtual)** | `http://localhost:5173/login` | Registro libre en `/signup` o Google OAuth | Definida por el usuario | Bearer Token (`api_token`) |
 
 ---
 
-## Modelo de Datos
+## 6. Contrato de la API REST
 
-La aplicación cuenta con las siguientes entidades principales:
+La especificación exhaustiva de todos los endpoints, estructuras de datos de entrada/salida, códigos de estado HTTP, validaciones y ejemplos reproducibles en cURL se encuentra documentada en:
 
-- **User:** Representa tanto a los administradores como a los clientes. Almacena credenciales.
-- **Category:** Categorías para organizar el catálogo de productos, con soporte para jerarquías (parent_id).
-- **Product:** Artículos a la venta. Tienen nombre, precio, stock y una imagen adjunta mediante **Active Storage**.
-- **ProductVariant:** Variantes de productos (ej: talle, color).
-- **Order:** Representa una compra realizada por un usuario.
-- **OrderItem:** El detalle de los productos/variantes adquiridos en una orden específica, almacenando precio unitario y cantidad.
+📄 **[Ver Contrato Formal de la API REST](docs/api_contract.md)**
 
----
+### Resumen de Endpoints Principales (`/api/v1`)
 
-## API Endpoints (v1)
-
-La API responde en formato `JSON` y es consumida por la aplicación frontend.
-
-### Públicos
-- `POST /api/v1/login` - Iniciar sesión por email y contraseña.
-- `POST /api/v1/signup` - Registro de nuevos usuarios.
-- `POST /api/v1/auth/google` - Autenticación mediante Google OAuth.
-- `GET /api/v1/products` - Lista todos los productos.
-- `GET /api/v1/products/:id` - Detalle de un producto.
-- `GET /api/v1/categories` - Lista de categorías.
-
-### Protegidos (Requieren Header `Authorization: Bearer <api_token>`)
-- `DELETE /api/v1/logout` - Cerrar sesión.
-- `GET /api/v1/orders` - Lista el historial de órdenes del usuario.
-- `GET /api/v1/orders/:id` - Detalle de una orden.
-- `POST /api/v1/orders` - Crear una orden de compra.
+* **Autenticación:**
+  * `POST /signup` - Registro de nuevos clientes.
+  * `POST /login` - Autenticación con email y contraseña (retorna `api_token`).
+  * `POST /auth/google` - Autenticación federada con Google Identity Services.
+  * `DELETE /logout` - Cierre de sesión y revocación de credencial (Requiere Bearer Token).
+* **Catálogo:**
+  * `GET /categories` - Listado jerárquico de categorías y subcategorías.
+  * `GET /products` - Catálogo completo con filtrado opcional por categoría (`?category_id=`).
+  * `GET /products/:id` - Detalle exhaustivo de producto con variantes, talles, colores y stock disponible.
+* **Órdenes de Compra (Protegidos con Bearer Token):**
+  * `POST /orders` - Creación de pedido con validación transaccional y descuento de stock.
+  * `GET /orders` - Historial de compras del usuario autenticado.
+  * `GET /orders/:id` - Detalle completo de orden y artículos comprados.
 
 ---
 
-## Calidad y Pruebas
+## 7. Pruebas Automatizadas y Calidad de Código
 
-Este proyecto asegura la calidad del código y la seguridad mediante:
-- **Minitest:** Pruebas unitarias para los modelos y de integración para la API (`bin/rails test`).
-- **Rubocop:** Verificación de sintaxis y estilo de código Ruby (`bundle exec rubocop`).
-- **Brakeman:** Análisis estático de seguridad para prevenir vulnerabilidades (`bundle exec brakeman`).
+El repositorio implementa suites completas de pruebas automatizadas y herramientas de análisis estático tanto en el backend como en el frontend:
+
+### 7.1. Pruebas del Backend (Rails / Minitest)
+Ejecuta las pruebas unitarias y de integración de la API:
+```bash
+bin/rails test
+```
+*(Cubre modelos, asociaciones, validaciones de negocio, controladores API y autenticación de tokens).*
+
+### 7.2. Pruebas del Frontend (Vitest + React Testing Library)
+Ejecuta las pruebas automatizadas de interacción de usuario en el frontend:
+```bash
+cd frontend
+npm test
+```
+*(Pruebas de componentes clave como Login y Carrito de compras, cubriendo flujos exitosos, validaciones locales de formularios y manejo controlado de respuestas de error de la API).*
+
+### 7.3. Linters y Seguridad Estática
+* **Verificación de estilo y sintaxis Ruby (RuboCop):**
+  ```bash
+  bundle exec rubocop
+  ```
+  *(0 ofensas).*
+* **Análisis estático de seguridad (Brakeman):**
+  ```bash
+  bundle exec brakeman --no-pager
+  ```
+  *(0 advertencias de seguridad).*
+* **Compilación de producción del Frontend:**
+  ```bash
+  cd frontend
+  npm run build
+  ```

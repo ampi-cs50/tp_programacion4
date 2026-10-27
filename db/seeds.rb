@@ -282,8 +282,16 @@ Category.where.not(id: [
   old_cat.destroy if old_cat.products.empty? && old_cat.subcategories.empty?
 end
 
+# -------------------------------------------------------------------------
+# 4. USUARIO DE PRUEBA / ADMINISTRADOR
+# -------------------------------------------------------------------------
+admin_user = User.find_or_initialize_by(email_address: "admin@midorisflow.com")
+admin_user.password = "password123" if admin_user.new_record?
+admin_user.save!
+
 puts "\n[3/3] Catálogo Activewear cargado con éxito!"
 puts "Total Categorías: #{Category.count}"
 puts "Total Productos: #{Product.count}"
 puts "Total Variantes: #{ProductVariant.count}"
+puts "Usuario de prueba listo: #{admin_user.email_address} (password: password123)"
 puts "===================================================="
