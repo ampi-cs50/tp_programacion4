@@ -286,7 +286,8 @@ end
 # 4. USUARIO DE PRUEBA / ADMINISTRADOR
 # -------------------------------------------------------------------------
 admin_user = User.find_or_initialize_by(email_address: "admin@midorisflow.com")
-admin_user.password = "password123" if admin_user.new_record?
+admin_user.admin = true
+admin_user.password = "password123" if admin_user.new_record? || admin_user.password_digest.blank?
 admin_user.save!
 
 puts "\n[3/3] Catálogo Activewear cargado con éxito!"

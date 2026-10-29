@@ -34,3 +34,7 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+# macOS system files
+.DS_Store
+*.DS_Store
+

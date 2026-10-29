@@ -6,6 +6,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body>
@@ -39,7 +40,8 @@
           </div>
           <div class="header-user">
             <span class="user-email">👤 <%= Current.user&.email_address %></span>
-            <%= link_to "Volver al sitio", root_path, class: "btn-outline" %>
+            <%= link_to "Ir a la Tienda", "http://localhost:5173", target: "_blank", class: "btn-outline" %>
+            <%= button_to "Cerrar sesión", session_path, method: :delete, class: "btn-logout" %>
           </div>
         </header>
 
