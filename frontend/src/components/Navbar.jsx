@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 
@@ -11,6 +11,31 @@ function Navbar() {
 
   const searchParams = new URLSearchParams(location.search);
   const currentCategory = searchParams.get('categoria');
+  const currentSearch = searchParams.get('buscar') || '';
+
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(currentSearch);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    setSearchQuery(currentSearch);
+  }, [currentSearch]);
+
+  useEffect(() => {
+    if (showSearch && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [showSearch]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const trimmed = searchQuery.trim();
+    if (trimmed) {
+      navigate(`/productos?buscar=${encodeURIComponent(trimmed)}`);
+    } else {
+      navigate('/productos');
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -50,9 +75,68 @@ function Navbar() {
       </div>
 
       <div className="nav-actions">
-        <button className="icon-btn">
-          <span>🔍</span> Buscar
-        </button>
+        {showSearch ? (
+          <form onSubmit={handleSearchSubmit} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Buscar productos..."
+              value={searchQuery}
+              onChange={(e) => {
+                const val = e.target.value;
+                setSearchQuery(val);
+                if (location.pathname === '/productos') {
+                  const params = new URLSearchParams(location.search);
+                  if (val.trim()) {
+                    params.set('buscar', val);
+                  } else {
+                    params.delete('buscar');
+                  }
+                  navigate(`/productos?${params.toString()}`, { replace: true });
+                }
+              }}
+              style={{
+                padding: '0.375rem 0.625rem',
+                fontSize: '0.875rem',
+                border: '0.0625rem solid var(--lulu-black)',
+                borderRadius: '0.25rem',
+                outline: 'none',
+                width: '12.5rem',
+                fontFamily: 'inherit'
+              }}
+            />
+            <button type="submit" className="icon-btn" title="Buscar">
+              <span>🔍</span>
+            </button>
+            <button
+              type="button"
+              className="icon-btn"
+              title="Cerrar búsqueda"
+              onClick={() => {
+                setShowSearch(false);
+                if (searchQuery) {
+                  setSearchQuery('');
+                  if (location.pathname === '/productos') {
+                    const params = new URLSearchParams(location.search);
+                    params.delete('buscar');
+                    navigate(`/productos?${params.toString()}`, { replace: true });
+                  }
+                }
+              }}
+              style={{ color: '#888', fontSize: '0.9rem' }}
+            >
+              ✕
+            </button>
+          </form>
+        ) : (
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={() => setShowSearch(true)}
+          >
+            <span>🔍</span> Buscar
+          </button>
+        )}
         
         {isAuthenticated ? (
           <>
