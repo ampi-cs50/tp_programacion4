@@ -205,15 +205,15 @@ activewear_catalog = [
   },
   {
     target_id: 2, # Reutiliza Product 2 para conservar órdenes existentes
-    name: "Riñonera Everywhere Belt Bag 1L",
+    name: "Riñonera Everywhere Belt Bag",
     category: sub_a_bolsos,
     price: 21000.0,
-    description: "Riñonera técnica compacta de 1 litro de capacidad fabricada en nylon repelente al agua. Correa regulable para llevar a la cintura o cruzada al pecho. Perfecta para caminatas, trote o yoga al aire libre.",
+    description: "Riñonera técnica compacta (19 x 13 x 5 cm) fabricada en nylon repelente al agua. Correa regulable para llevar a la cintura o cruzada al pecho. Perfecta para caminatas, trote o yoga al aire libre.",
     image_file: "belt_bag.jpg",
     variants: [
-      { color: "Negro", hex_color: "#111111", size: "1L", stock: 25, sku: "EVE-BAG-01-1L-BLK" },
-      { color: "Blanco Hueso", hex_color: "#F3EFEA", size: "1L", stock: 15, sku: "EVE-BAG-01-1L-WHT" },
-      { color: "Terracota Spiced", hex_color: "#A3523C", size: "1L", stock: 10, sku: "EVE-BAG-01-1L-TER" }
+      { color: "Negro", hex_color: "#111111", size: "19x13 cm", stock: 25, sku: "EVE-BAG-01-1L-BLK" },
+      { color: "Blanco Hueso", hex_color: "#F3EFEA", size: "19x13 cm", stock: 15, sku: "EVE-BAG-01-1L-WHT" },
+      { color: "Terracota Spiced", hex_color: "#A3523C", size: "19x13 cm", stock: 10, sku: "EVE-BAG-01-1L-TER" }
     ]
   },
   {
