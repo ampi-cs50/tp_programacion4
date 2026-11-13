@@ -18,6 +18,7 @@ function ProductDetail() {
 
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   useEffect(() => {
     axios.get(`${API_URL}/products/${id}`)
@@ -59,6 +60,24 @@ function ProductDetail() {
   const uniqueColors = Array.from(uniqueColorsMap.entries()).map(([color, hex]) => ({ color, hex }));
 
   const uniqueSizes = product.variants ? [...new Set(product.variants.map(v => v.size))] : [];
+
+  const categoryParent = (product.category?.parent_name || product.category?.name || '').toLowerCase();
+  const isAccessory = categoryParent.includes('accesorio') || !uniqueSizes.some(s => ['XS', 'S', 'M', 'L', 'XL', 'XXL'].includes(s.toUpperCase()));
+  const isMen = categoryParent.includes('hombre');
+
+  const sizeGuideRows = isMen
+    ? [
+        { size: 'S', chest: '91 - 96 cm', waist: '76 - 81 cm', hip: '91 - 96 cm' },
+        { size: 'M', chest: '99 - 104 cm', waist: '84 - 89 cm', hip: '99 - 104 cm' },
+        { size: 'L', chest: '107 - 112 cm', waist: '91 - 97 cm', hip: '107 - 112 cm' },
+        { size: 'XL', chest: '114 - 122 cm', waist: '99 - 107 cm', hip: '114 - 120 cm' },
+      ]
+    : [
+        { size: 'XS', chest: '77 - 82 cm', waist: '58 - 63 cm', hip: '84 - 89 cm' },
+        { size: 'S', chest: '84 - 89 cm', waist: '65 - 70 cm', hip: '91 - 96 cm' },
+        { size: 'M', chest: '91 - 96 cm', waist: '72 - 77 cm', hip: '98 - 103 cm' },
+        { size: 'L', chest: '99 - 105 cm', waist: '80 - 86 cm', hip: '106 - 112 cm' },
+      ];
 
   const selectedVariant = product.variants?.find(v => v.color === selectedColor && v.size === selectedSize);
   const variantStock = selectedVariant ? selectedVariant.stock : 0;
@@ -147,38 +166,58 @@ function ProductDetail() {
 
         {uniqueSizes.length > 0 && (
           <div style={{ marginBottom: '1.875rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.625rem' }}>
-              <p style={{ fontWeight: 'bold', margin: 0 }}>Talle: <span style={{ fontWeight: 'normal', color: 'var(--lulu-dark-gray)' }}>{selectedSize}</span></p>
-              <span style={{ fontSize: '0.85rem', color: 'var(--lulu-dark-gray)', textDecoration: 'underline', cursor: 'pointer' }}>Guía de talles</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: isAccessory ? 0 : '0.625rem' }}>
+              <p style={{ fontWeight: 'bold', margin: 0 }}>{isAccessory ? 'Medida:' : 'Talle:'} <span style={{ fontWeight: 'normal', color: 'var(--lulu-dark-gray)' }}>{selectedSize}</span></p>
+              {!isAccessory && (
+                <button
+                  type="button"
+                  onClick={() => setShowSizeGuide(true)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    fontSize: '0.85rem',
+                    color: 'var(--lulu-dark-gray)',
+                    textDecoration: 'underline',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit'
+                  }}
+                >
+                  Guía de talles
+                </button>
+              )}
             </div>
-            <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
-              {uniqueSizes.map(size => {
-                const v = product.variants?.find(v => v.color === selectedColor && v.size === size);
-                const hasStock = v && v.stock > 0;
-                return (
-                  <button 
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    disabled={!hasStock}
-                    style={{
-                      width: '3.75rem',
-                      height: '2.5rem',
-                      border: selectedSize === size ? '0.125rem solid #000' : '0.0625rem solid #ccc',
-                      borderRadius: '0.25rem',
-                      background: hasStock ? '#fff' : '#f5f5f5',
-                      color: hasStock ? '#000' : '#aaa',
-                      cursor: hasStock ? 'pointer' : 'not-allowed',
-                      fontWeight: selectedSize === size ? 'bold' : 'normal',
-                      position: 'relative',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    {size}
-                    {!hasStock && <div style={{ position: 'absolute', top: '50%', left: '-10%', width: '120%', height: '0.0625rem', background: '#aaa', transform: 'rotate(20deg)' }}></div>}
-                  </button>
-                );
-              })}
-            </div>
+            {!isAccessory && (
+              <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
+                {uniqueSizes.map(size => {
+                  const v = product.variants?.find(v => v.color === selectedColor && v.size === size);
+                  const hasStock = v && v.stock > 0;
+                  return (
+                    <button 
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      disabled={!hasStock}
+                      style={{
+                        minWidth: '3.75rem',
+                        padding: '0 0.75rem',
+                        height: '2.5rem',
+                        border: selectedSize === size ? '0.125rem solid #000' : '0.0625rem solid #ccc',
+                        borderRadius: '0.25rem',
+                        background: hasStock ? '#fff' : '#f5f5f5',
+                        color: hasStock ? '#000' : '#aaa',
+                        cursor: hasStock ? 'pointer' : 'not-allowed',
+                        fontWeight: selectedSize === size ? 'bold' : 'normal',
+                        position: 'relative',
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {size}
+                      {!hasStock && <div style={{ position: 'absolute', top: '50%', left: '-10%', width: '120%', height: '0.0625rem', background: '#aaa', transform: 'rotate(20deg)' }}></div>}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
@@ -224,9 +263,6 @@ function ProductDetail() {
         >
           {added ? '¡Agregado!' : (variantStock <= 0 ? 'Agotado en esta combinación' : 'Agregar al carrito')}
         </button>
-        <button className="btn btn-outline" style={{ padding: '1rem', fontSize: '1.1rem' }}>
-          Favoritos
-        </button>
 
         <div style={{ marginTop: '2.5rem', paddingTop: '1.25rem', borderTop: '0.0625rem solid var(--lulu-border)' }}>
           <p style={{ fontSize: '0.9rem', color: 'var(--lulu-dark-gray)' }}>
@@ -234,6 +270,114 @@ function ProductDetail() {
           </p>
         </div>
       </div>
+
+      {showSizeGuide && (
+        <div
+          onClick={() => setShowSizeGuide(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2000,
+            padding: '1.25rem'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: '0.5rem',
+              maxWidth: '34rem',
+              width: '100%',
+              padding: '1.875rem',
+              boxShadow: '0 0.625rem 1.875rem rgba(0, 0, 0, 0.2)',
+              position: 'relative'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <div>
+                <h2 style={{ fontSize: '1.35rem', fontWeight: '700', margin: 0 }}>
+                  Guía de Talles — {isMen ? 'Hombre' : 'Mujer'}
+                </h2>
+                <p style={{ fontSize: '0.85rem', color: 'var(--lulu-dark-gray)', marginTop: '0.25rem' }}>
+                  {product.name}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowSizeGuide(false)}
+                aria-label="Cerrar guía de talles"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '1.25rem',
+                  cursor: 'pointer',
+                  color: 'var(--lulu-dark-gray)',
+                  padding: '0.25rem 0.5rem'
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
+              <thead>
+                <tr style={{ borderBottom: '0.125rem solid #111', textAlign: 'left', backgroundColor: '#f8f8f8' }}>
+                  <th style={{ padding: '0.625rem 0.75rem' }}>Talle</th>
+                  <th style={{ padding: '0.625rem 0.75rem' }}>{isMen ? 'Pecho' : 'Busto'}</th>
+                  <th style={{ padding: '0.625rem 0.75rem' }}>Cintura</th>
+                  <th style={{ padding: '0.625rem 0.75rem' }}>Cadera</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sizeGuideRows.map((row) => {
+                  const isCurrent = row.size === selectedSize;
+                  const isAvailableInProduct = uniqueSizes.includes(row.size);
+                  return (
+                    <tr
+                      key={row.size}
+                      style={{
+                        borderBottom: '0.0625rem solid #eaeaea',
+                        backgroundColor: isCurrent ? '#f0f4f1' : 'transparent',
+                        fontWeight: isCurrent ? '600' : '400',
+                        opacity: isAvailableInProduct ? 1 : 0.5
+                      }}
+                    >
+                      <td style={{ padding: '0.625rem 0.75rem' }}>
+                        {row.size} {isCurrent && <span style={{ fontSize: '0.75rem', color: '#2D4B3E' }}>(Seleccionado)</span>}
+                      </td>
+                      <td style={{ padding: '0.625rem 0.75rem' }}>{row.chest}</td>
+                      <td style={{ padding: '0.625rem 0.75rem' }}>{row.waist}</td>
+                      <td style={{ padding: '0.625rem 0.75rem' }}>{row.hip}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            <div style={{ fontSize: '0.82rem', color: 'var(--lulu-dark-gray)', lineHeight: 1.5, backgroundColor: '#fafafa', padding: '0.875rem', borderRadius: '0.375rem', marginBottom: '1.25rem' }}>
+              <strong>¿Cómo tomarte las medidas?</strong>
+              <ul style={{ margin: '0.375rem 0 0 1.125rem', padding: 0 }}>
+                <li><strong>{isMen ? 'Pecho' : 'Busto'}:</strong> Medí alrededor de la parte más amplia del pecho manteniendo la cinta horizontal.</li>
+                <li><strong>Cintura:</strong> Rodeá la parte más angosta del torso (por encima del ombligo).</li>
+                <li><strong>Cadera:</strong> Juntá los pies y medí alrededor de la parte más prominente de la cadera.</li>
+              </ul>
+            </div>
+
+            <button
+              type="button"
+              className="btn btn-black"
+              onClick={() => setShowSizeGuide(false)}
+              style={{ width: '100%', padding: '0.75rem', fontSize: '0.95rem' }}
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
