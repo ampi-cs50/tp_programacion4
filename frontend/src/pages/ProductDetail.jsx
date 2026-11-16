@@ -90,7 +90,7 @@ function ProductDetail() {
       variant_id: selectedVariant.id,
       name: `${product.name} - ${selectedColor} / ${selectedSize}`,
       price: product.price,
-      image_url: product.image_url,
+      image_url: getProductImageUrl(product, selectedColor) || product.image_url,
       stock: selectedVariant.stock
     };
 
@@ -99,13 +99,15 @@ function ProductDetail() {
     setTimeout(() => setAdded(false), 2000);
   };
 
+  const currentImageUrl = getProductImageUrl(product, selectedColor);
+
   return (
     <div className="container" style={{ display: 'flex', gap: '2.5rem', marginTop: '3.75rem', marginBottom: '3.75rem', flexWrap: 'wrap' }}>
       <div style={{ flex: '1', minWidth: '18.75rem' }}>
-        {getProductImageUrl(product) ? (
+        {currentImageUrl ? (
           <img 
-            src={getProductImageUrl(product)} 
-            alt={product.name} 
+            src={currentImageUrl} 
+            alt={`${product.name} - ${selectedColor}`} 
             style={{ width: '100%', borderRadius: '0.5rem' }} 
             onError={(e) => {
               e.target.onerror = null;
@@ -144,7 +146,14 @@ function ProductDetail() {
               {uniqueColors.map(c => (
                 <button 
                   key={c.color}
-                  onClick={() => setSelectedColor(c.color)}
+                  onClick={() => {
+                    setSelectedColor(c.color);
+                    const hasCurrentSize = product.variants?.some(v => v.color === c.color && v.size === selectedSize && v.stock > 0);
+                    if (!hasCurrentSize) {
+                      const firstAvailable = product.variants?.find(v => v.color === c.color && v.stock > 0) || product.variants?.find(v => v.color === c.color);
+                      if (firstAvailable) setSelectedSize(firstAvailable.size);
+                    }
+                  }}
                   title={c.color}
                   style={{
                     width: '2.5rem',

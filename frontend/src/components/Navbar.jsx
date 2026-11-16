@@ -45,12 +45,38 @@ function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/" className="nav-brand">
-        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round">
-          <circle cx="50" cy="50" r="42" stroke="currentColor" strokeWidth="6" opacity="0.2"/>
-          <path d="M 32 64 C 42 32, 58 32, 68 64 C 55 76, 45 76, 32 64 Z" fill="currentColor" fillOpacity="0.2"/>
-          <path d="M 38 52 C 46 38, 54 38, 62 52"/>
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+          <circle cx="20" cy="20" r="19" fill="#D31334" />
+          {/* Pétalo central de loto / movimiento */}
+          <path
+            d="M20 8.5C16.8 13.2 15.5 17.5 15.5 21.2C15.5 24.4 17.5 26.8 20 26.8C22.5 26.8 24.5 24.4 24.5 21.2C24.5 17.5 23.2 13.2 20 8.5Z"
+            fill="#FFFFFF"
+          />
+          {/* Pétalo / onda izquierda */}
+          <path
+            d="M14.2 25.5C11.2 24.1 9.2 21.1 9.5 16.5C12.6 17.5 14.5 20.1 15.2 23.6"
+            stroke="#FFFFFF"
+            strokeWidth="2.3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* Pétalo / onda derecha */}
+          <path
+            d="M25.8 25.5C28.8 24.1 30.8 21.1 30.5 16.5C27.4 17.5 25.5 20.1 24.8 23.6"
+            stroke="#FFFFFF"
+            strokeWidth="2.3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* Línea de flujo inferior */}
+          <path
+            d="M12.5 29.8C15.2 31.4 17.6 32 20 32C22.4 32 24.8 31.4 27.5 29.8"
+            stroke="#FFFFFF"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          />
         </svg>
-        MIDORI'S FLOW
+        <span>MIDORI&apos;S FLOW</span>
       </Link>
       
       <div className="nav-links">

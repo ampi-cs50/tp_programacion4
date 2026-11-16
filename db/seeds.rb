@@ -134,6 +134,27 @@ activewear_catalog = [
       { color: "Gris Grafito", hex_color: "#4B4F54", size: "M", stock: 10, sku: "BIK-SHO-01-M-GRY" }
     ]
   },
+  {
+    name: "Pantalón High-Rise Wide-Leg Pant",
+    category: sub_m_leggings,
+    price: 44000.0,
+    description: "Pantalón de tiro alto y pierna ancha fluida confeccionado en tejido ultraligero y suave al tacto. Cintura elástica con cordón regulable, caída relajada y máxima comodidad para yoga, pilates o uso urbano diario.",
+    image_file: "wide_leg_pant.jpg",
+    variants: [
+      { color: "Visón Taupe", hex_color: "#847968", size: "XS", stock: 8, sku: "WID-PNT-01-XS-TAU" },
+      { color: "Visón Taupe", hex_color: "#847968", size: "S", stock: 14, sku: "WID-PNT-01-S-TAU" },
+      { color: "Visón Taupe", hex_color: "#847968", size: "M", stock: 16, sku: "WID-PNT-01-M-TAU" },
+      { color: "Visón Taupe", hex_color: "#847968", size: "L", stock: 10, sku: "WID-PNT-01-L-TAU" },
+      { color: "Verde Esmeralda", hex_color: "#19684E", size: "XS", stock: 6, sku: "WID-PNT-01-XS-EMR" },
+      { color: "Verde Esmeralda", hex_color: "#19684E", size: "S", stock: 12, sku: "WID-PNT-01-S-EMR" },
+      { color: "Verde Esmeralda", hex_color: "#19684E", size: "M", stock: 15, sku: "WID-PNT-01-M-EMR" },
+      { color: "Verde Esmeralda", hex_color: "#19684E", size: "L", stock: 9, sku: "WID-PNT-01-L-EMR" },
+      { color: "Borgoña Ciruela", hex_color: "#422736", size: "XS", stock: 7, sku: "WID-PNT-01-XS-BRG" },
+      { color: "Borgoña Ciruela", hex_color: "#422736", size: "S", stock: 13, sku: "WID-PNT-01-S-BRG" },
+      { color: "Borgoña Ciruela", hex_color: "#422736", size: "M", stock: 12, sku: "WID-PNT-01-M-BRG" },
+      { color: "Borgoña Ciruela", hex_color: "#422736", size: "L", stock: 8, sku: "WID-PNT-01-L-BRG" }
+    ]
+  },
 
   # --- HOMBRE ---
   {
@@ -178,6 +199,27 @@ activewear_catalog = [
     ]
   },
   {
+    name: "Short Classic-Fit Golf Short 8\"",
+    category: sub_h_shorts,
+    price: 36000.0,
+    description: "Short de corte clásico diseñado para golf, caminata y uso casual deportivo. Tejido técnico Warpstreme™ elástico en 4 direcciones, repelente al agua, transpirable y con bolsillos profundos de seguridad.",
+    image_file: "golf_short.jpg",
+    variants: [
+      { color: "Verde Esmeralda", hex_color: "#1F5A42", size: "S", stock: 8, sku: "GLF-SHO-01-S-EMR" },
+      { color: "Verde Esmeralda", hex_color: "#1F5A42", size: "M", stock: 14, sku: "GLF-SHO-01-M-EMR" },
+      { color: "Verde Esmeralda", hex_color: "#1F5A42", size: "L", stock: 12, sku: "GLF-SHO-01-L-EMR" },
+      { color: "Verde Esmeralda", hex_color: "#1F5A42", size: "XL", stock: 7, sku: "GLF-SHO-01-XL-EMR" },
+      { color: "Arena Beige", hex_color: "#C2B5A3", size: "S", stock: 10, sku: "GLF-SHO-01-S-BEG" },
+      { color: "Arena Beige", hex_color: "#C2B5A3", size: "M", stock: 16, sku: "GLF-SHO-01-M-BEG" },
+      { color: "Arena Beige", hex_color: "#C2B5A3", size: "L", stock: 14, sku: "GLF-SHO-01-L-BEG" },
+      { color: "Arena Beige", hex_color: "#C2B5A3", size: "XL", stock: 8, sku: "GLF-SHO-01-XL-BEG" },
+      { color: "Gris Pizarra", hex_color: "#676E73", size: "S", stock: 9, sku: "GLF-SHO-01-S-GRY" },
+      { color: "Gris Pizarra", hex_color: "#676E73", size: "M", stock: 15, sku: "GLF-SHO-01-M-GRY" },
+      { color: "Gris Pizarra", hex_color: "#676E73", size: "L", stock: 11, sku: "GLF-SHO-01-L-GRY" },
+      { color: "Gris Pizarra", hex_color: "#676E73", size: "XL", stock: 6, sku: "GLF-SHO-01-XL-GRY" }
+    ]
+  },
+  {
     name: "Buzo Hoodie City Sweat French Terry",
     category: sub_h_abrigos,
     price: 46000.0,
@@ -214,6 +256,42 @@ activewear_catalog = [
       { color: "Negro", hex_color: "#111111", size: "19x13 cm", stock: 25, sku: "EVE-BAG-01-1L-BLK" },
       { color: "Blanco Hueso", hex_color: "#F3EFEA", size: "19x13 cm", stock: 15, sku: "EVE-BAG-01-1L-WHT" },
       { color: "Terracota Spiced", hex_color: "#A3523C", size: "19x13 cm", stock: 10, sku: "EVE-BAG-01-1L-TER" }
+    ]
+  },
+  {
+    name: "Cartera Slouchy Shoulder Bag",
+    category: sub_a_bolsos,
+    price: 32000.0,
+    description: "Cartera de hombro estilo hobo con pliegues frontales (30 x 22 x 10 cm) confeccionada en nylon impermeable y liviano. Cierre superior seguro, compartimentos organizadores internos y correa ergonómica para uso diario o post-entrenamiento.",
+    image_file: "shoulder_bag.jpg",
+    variants: [
+      { color: "Negro", hex_color: "#181818", size: "30x22 cm", stock: 18, sku: "SHO-BAG-01-30-BLK" },
+      { color: "Blanco Hueso", hex_color: "#F2EFE9", size: "30x22 cm", stock: 14, sku: "SHO-BAG-01-30-WHT" },
+      { color: "Rosa Lila", hex_color: "#DFBAD2", size: "30x22 cm", stock: 12, sku: "SHO-BAG-01-30-PNK" }
+    ]
+  },
+  {
+    name: "Visera Wide Band Runner Visor",
+    category: sub_a_botellas,
+    price: 16500.0,
+    description: "Visera deportiva de running y outdoor con banda ancha absorbente de secado rápido (54 - 58 cm regulable). Diseño ultraliviano con protección solar curva y ajuste trasero elástico que no presiona.",
+    image_file: "runner_visor.jpg",
+    variants: [
+      { color: "Negro", hex_color: "#262626", size: "54-58 cm", stock: 20, sku: "RUN-VIS-01-UNI-BLK" },
+      { color: "Blanco", hex_color: "#F8F8F8", size: "54-58 cm", stock: 16, sku: "RUN-VIS-01-UNI-WHT" },
+      { color: "Celeste Pastel", hex_color: "#8BC3EA", size: "54-58 cm", stock: 14, sku: "RUN-VIS-01-UNI-BLU" }
+    ]
+  },
+  {
+    name: "Broche Extra Large Claw Hair Clip",
+    category: sub_a_botellas,
+    price: 12500.0,
+    description: "Broche para el cabello tamaño extra grande (11 cm) fabricado en acetato de celulosa resistente con resorte de alta sujeción. Ideal para recoger el pelo cómodamente durante tus sesiones de yoga, pilates o running.",
+    image_file: "claw_clip.jpg",
+    variants: [
+      { color: "Carey Ámbar", hex_color: "#8B5A2B", size: "11 cm", stock: 22, sku: "CLW-CLP-01-11-AMB" },
+      { color: "Rosa Cuarzo", hex_color: "#E8B7D0", size: "11 cm", stock: 18, sku: "CLW-CLP-01-11-PNK" },
+      { color: "Nacarado Marfil", hex_color: "#EAE3D2", size: "11 cm", stock: 16, sku: "CLW-CLP-01-11-PRL" }
     ]
   },
   {
