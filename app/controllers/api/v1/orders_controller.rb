@@ -20,7 +20,7 @@ module Api
           @order = current_user.orders.build(status: "pending", total: 0)
 
           if params[:order_items].blank?
-            render json: { error: "Order must contain items" }, status: :unprocessable_entity
+            render json: { error: "El pedido debe contener al menos un producto." }, status: :unprocessable_entity
             return
           end
 
@@ -33,12 +33,12 @@ module Api
             if item_params[:variant_id].present?
               variant = product.product_variants.find(item_params[:variant_id])
               if variant.stock < quantity
-                raise OrderProcessingError, "Not enough stock for #{product.name} in that color/size"
+                raise OrderProcessingError, "No hay stock suficiente para #{product.name} (#{variant.color} / #{variant.size}). Stock disponible: #{variant.stock}."
               end
               variant.update!(stock: variant.stock - quantity)
             else
               if product.stock < quantity
-                raise OrderProcessingError, "Not enough stock for #{product.name}"
+                raise OrderProcessingError, "No hay stock suficiente para #{product.name}. Stock disponible: #{product.stock}."
               end
               product.update!(stock: product.stock - quantity)
             end

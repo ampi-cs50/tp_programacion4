@@ -69,7 +69,7 @@ class Api::V1::OrdersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
     json_response = JSON.parse(response.body)
-    assert_match(/Not enough stock/, json_response["error"])
+    assert_match(/No hay stock suficiente/, json_response["error"])
     assert_equal 1, variant.reload.stock
   end
 end

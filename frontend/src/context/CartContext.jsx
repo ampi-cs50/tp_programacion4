@@ -1,26 +1,46 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext, useRef } from 'react';
+import { AuthContext } from './AuthContext';
 import { getProductImageUrl } from '../utils/imageHelper';
 
 export const CartContext = createContext();
 
-export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem('shopping_cart');
-    if (!savedCart) return [];
-    try {
-      const items = JSON.parse(savedCart);
-      return Array.isArray(items) ? items.map(item => ({
-        ...item,
-        image_url: getProductImageUrl(item) || item.image_url
-      })) : [];
-    } catch {
-      return [];
-    }
-  });
+function loadCartFromStorage(storageKey) {
+  const savedCart = localStorage.getItem(storageKey);
+  if (!savedCart) return [];
+  try {
+    const items = JSON.parse(savedCart);
+    return Array.isArray(items) ? items.map(item => ({
+      ...item,
+      image_url: getProductImageUrl(item) || item.image_url
+    })) : [];
+  } catch {
+    return [];
+  }
+}
 
+export function CartProvider({ children }) {
+  const auth = useContext(AuthContext);
+  const userEmail = auth?.userEmail || null;
+  const storageKey = userEmail ? `shopping_cart_${userEmail.toLowerCase()}` : 'shopping_cart_guest';
+
+  const [cartItems, setCartItems] = useState(() => loadCartFromStorage(storageKey));
+  const activeKeyRef = useRef(storageKey);
+
+  // Al cambiar de usuario (login / logout), cargar el carrito exclusivo de ese usuario
   useEffect(() => {
-    localStorage.setItem('shopping_cart', JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (activeKeyRef.current !== storageKey) {
+      const userCart = loadCartFromStorage(storageKey);
+      activeKeyRef.current = storageKey;
+      setCartItems(userCart);
+    }
+  }, [storageKey]);
+
+  // Guardar en localStorage únicamente en la clave del usuario activo actual
+  useEffect(() => {
+    if (activeKeyRef.current === storageKey) {
+      localStorage.setItem(storageKey, JSON.stringify(cartItems));
+    }
+  }, [cartItems, storageKey]);
 
   const addToCart = (product, quantity = 1) => {
     setCartItems(prevItems => {
@@ -31,7 +51,7 @@ export function CartProvider({ children }) {
       if (existingItem) {
         return prevItems.map(item =>
           item.cartItemId === cartItemId
-            ? { ...item, quantity: item.quantity + quantity, image_url: imageUrl || item.image_url }
+            ? { ...item, quantity: item.quantity + quantity, stock: product.stock, image_url: imageUrl || item.image_url }
             : item
         );
       }
