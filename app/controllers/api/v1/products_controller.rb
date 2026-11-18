@@ -20,11 +20,6 @@ module Api
           end
         end
 
-        if params[:search].present?
-          query = "%#{params[:search].downcase.strip}%"
-          @products = @products.where("LOWER(name) LIKE ? OR LOWER(description) LIKE ?", query, query)
-        end
-
         case params[:sort]
         when "price_asc"
           @products = @products.order(price: :asc)
@@ -34,7 +29,16 @@ module Api
           @products = @products.order(created_at: :desc)
         end
 
-        render json: @products.map { |product| serialize_product(product) }
+        results = @products.to_a
+        if params[:search].present?
+          normalized_query = I18n.transliterate(params[:search].to_s).downcase.strip
+          results.select! do |product|
+            searchable_text = I18n.transliterate("#{product.name} #{product.description} #{product.category&.name}").downcase
+            searchable_text.include?(normalized_query)
+          end
+        end
+
+        render json: results.map { |product| serialize_product(product) }
       end
 
       def show
